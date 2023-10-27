@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>确认收货</title>
+    <link rel="stylesheet" type="text/css" href="../css/index.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/public.css"/>
+    <!-- 引入JQ和Bootstrap -->
+    <script src="../js/jquery/2.0.0/jquery.min.js"></script>
+    <script src="../js/bootstrap/3.3.6/bootstrap.min.js"></script>
+    <link href="../css/fore/style.css" rel="stylesheet">
+    <link href="../assets/css/bootstrap.css" rel="stylesheet">
+</head>
+<style>
+    /*导航栏和搜索框样式*/
+    .workArea {
+        width: 100%; /* 宽度为100%，充满整个屏幕宽度 */
+        height: 32px;
+        color: white;
+    }
+
+    #site-nav {
+        width: 100%;
+        position: fixed;
+        top: 0;
+        z-index: 99;
+        background-color: #000000;
+        height: 36px;
+        border-bottom: 1px solid #2b542c;
+        opacity: 0.6;
+    }
+
+    #site-nav span {
+        padding-left: 20px;
+        line-height: 32px;
+        font-size:14px;
+    }
+
+    .logoandsearchbox {
+        margin: 10px 0 0 0;
+        height: 120px;
+        width: 100%;
+        border-bottom: solid black;
+    }
+
+    .shouye {
+        height: 20px;
+        background-color: #2b542c;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-bottom: solid;
+    }
+
+    .f1 {
+        float: left;
+    }
+
+    .img1 {
+        border: 0;
+        width: 150px;
+        height: 100px;
+
+    }
+
+    .margin_wenzi {
+        margin-left: 0;
+        font-family: "Times New Roman", Georgia, Serif;
+        margin-top: 63px;
+    }
+
+    .searchLogo {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .shoppingCart {
+        width: 40px;
+        height: 40px;
+        margin-left: 60px;
+        cursor: pointer;
+    }
+
+    .people {
+        width: 40px;
+        height: 40px;
+        margin-left: 20px;
+        line-height: 30px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .searchSection {
+        width: 275px;
+        height: 40px;
+    }
+
+    .inputSearchDiv {
+        background-color: #FFC107;
+    }
+
+    #userLoggedInDiv{
+        display: flex;
+    }
+</style>
+<style>
+    div.orderFinishDiv {
+        border: 1px solid #E5E5E5;
+        padding: 40px;
+        max-width: 1013px;
+        margin: 10px auto;
+    }
+
+    div.orderFinishDiv span {
+        font-size: 14px;
+        color: black;
+        font-weight: bold;
+        margin-left: 20px;
+        padding-top: 20px;
+    }
+
+    body, table {
+        font-size: 12px;
+        font-family: Arial;
+    }
+
+    div.confirmPayOrderItemDiv {
+        margin: 0px 20px;
+    }
+
+    div.confirmPayOrderItemText {
+        margin: 20px 10px;
+        font-size: 14px;
+        font-weight: normal;
+        color: black;
+    }
+
+    table.confirmPayOrderItemTable {
+        border: 1px solid #DDDDDD;
+        width: 100%;
+    }
+
+    table.confirmPayOrderItemTable thead {
+        background-color: #E8F2FF;
+        height: 33px;
+    }
+
+    table.confirmPayOrderItemTable tr {
+        border: 1px solid #DDDDDD;
+    }
+
+    table.confirmPayOrderItemTable th, table.confirmPayOrderItemTable td {
+        text-align: center;
+    }
+
+    table.confirmPayOrderItemTable td {
+        padding: 10px;
+    }
+
+    table.confirmPayOrderItemTable td a{
+        color: #777777;
+        transition: 0.3s;
+    }
+
+    table.confirmPayOrderItemTable td a:hover{
+        color: red;
+    }
+
+    td.confirmPayOrderItemProductLink {
+        text-align: left !important;
+    }
+
+    span.conformPayProductPrice {
+        font-size: 18px;
+        font-weight: bold;
+        color: #666666;
+    }
+
+    span.confirmPayOrderItemSumPrice {
+        color: #FF0036;
+    }
+
+    a {
+        color: #999;
+    }
+
+    a:hover {
+        text-decoration: none;
+        color: #FF0036;
+    }
+
+    table.confirmPayOrderDetailTable td {
+        padding: 8px;
+        color: black;
+        font-size: 14px;
+    }
+
+    .aStyle {
+        font-size: 16px;
+        text-decoration: none;
+        color: #1692c4;
+    }
+
+</style>
+
+<body>
+<!-- 导航栏和搜索框 -->
+<nav id="site-nav" role="navigation">
+    <div class="workArea">
+        <div id="userNoLogin" style="display: none">
+            <span>欢迎来BOOKSTORM</span>
+            <span><a href="./index.html" style="color: white">首页</a></span>
+            <span><a href="./login.html" style="color: white">请登录</a></span>
+            <span><a href="./register.html" style="color: white">注册</a></span>
+        </div>
+        <!-- 用户登录时包含的 <div> -->
+        <div id="userLoggedInDiv" style="display: none">
+            <span>
+                <img class="userImage" src="" referrerpolicy="no-referrer"
+                     style="width: 32px; height: 32px; border-radius: 16px">
+            </span>
+            <span>Hi，<span id="userName"></span></span>
+            <span><a href="/logout" style="color: white">退出</a></span>
+            <span><a href="./index.html" style="color: white">首页</a></span>
+        </div>
+    </div>
+</nav>
+
+<div class="logoandsearchbox max-width margin-auto clearfix">
+    <div class="f1">
+        <img class="img1" src="../img/fore/tmall-logo-new.png">
+    </div>
+    <div class="f1 margin_wenzi">
+        美好的一天从读书开始
+    </div>
+    <div class="mallSearch-input">
+        <!--搜索框-->
+        <div class="f1 inputSearchDiv">
+            <input placeholder="书名、作者、ISBN" class="inputSearch" name="keyword">
+        </div>
+        <div class="searchSection">
+            <!-- 搜索 -->
+            <div class="f1 searchLogo">
+                <img src="../img/fore/search_logo1.jpg" width="30px" height="30px" onclick="getSearchResult()">
+            </div>
+            <!--购物车-->
+            <div class="shoppingCart f1">
+                <a href="./cart.html">
+                    <img src="../img/fore/shopping.jpg" width="40px" height="40px">
+                </a>
+            </div>
+            <!--个人中心-->
+            <div class="people f1">
+                <a href="./personalCenter.html">
+                    <img src="../img/fore/people.png" width="30px" height="30px">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--------------------------------------->
+
+<div class="orderFinishDiv">
+    <div class="orderFinishTextDiv">
+        <img src="../img/fore/orderFinish.png">
+        <span>确认收货成功，请及时做出评价</span>
+    </div>
+
+    <div class="confirmPayOrderItemDiv">
+        <div class="confirmPayOrderItemText">订单信息</div>
+        <table class="confirmPayOrderItemTable">
+            <thead>
+            <th colspan="2">宝贝</th>
+            <th width="120px">单价</th>
+            <th width="120px">数量</th>
+            <th width="120px">商品总价</th>
+            <th width="120px">运费</th>
+            <th width="120px">评论</th>
+            </thead>
+            <!--    订单详情-->
+        </table>
+
+        <div class="confirmPayOrderItemText pull-right">
+            实付款： <span class="confirmPayOrderItemSumPrice"></span>
+        </div>
+    </div>
+</div>
+
+<!--footer-->
+<div class="footer">
+    <div class="top">
+        <div class="wrapper">
+            <div class="clearfix">
+                <a href="#2" class="fl"><img src="../img/foot1.png"/></a>
+                <span class="fl">7天无理由退货</span>
+            </div>
+            <div class="clearfix">
+                <a href="#2" class="fl"><img src="../img/foot2.png"/></a>
+                <span class="fl">15天免费换货</span>
+            </div>
+            <div class="clearfix">
+                <a href="#2" class="fl"><img src="../img/foot3.png"/></a>
+                <span class="fl">满599包邮</span>
+            </div>
+            <div class="clearfix">
+                <a href="#2" class="fl"><img src="../img/foot4.png"/></a>
+                <span class="fl">手机特色服务</span>
+            </div>
+        </div>
+    </div>
+    <p class="dibu">WELCOME TO<br/>
+        BOOKSTORM</p>
+</div>
+</body>
+<script>
+    // 获取用户信息
+    $(function () {
+        $.getJSON('/mineMessage',
+            function (result) {
+                let redirect = result.data;
+                if (redirect === undefined || redirect === null) {
+                    $('#userNoLogin').show();
+                } else {
+                    // 显示用户登录时的 <div> 并设置用户信息
+                    let user = result.data;
+                    $('#userLoggedInDiv').show();
+                    $('.userImage').attr('src', user.image);
+                    $('#userName').text(user.name);
+                }
+            }
+        );
+    })
+
+    $(function () {
+        $('input[name="keyword"]').on('keypress', function (event) {
+            if (event.which === 13) {
+                // 13 是回车键的键码
+                getSearchResult();
+            }
+        });
+    })
+
+    // 搜索框
+    function getSearchResult() {
+        let keyword = $('input[name="keyword"]').val();
+        keyword = keyword.trim();
+        if (keyword.length <= 0) {
+            $('input[name="keyword"]').val('');
+            alert("请输入查询关键词! (书名、作者、ISBN)");
+        } else {
+            location.assign(`./searchResult.html?keyword=${keyword}`);
+        }
+    }
+</script>
+<script>
+    $(function () {
+        let urlParams = new URLSearchParams(window.location.search);
+        let orderId = urlParams.get("orderId");
+        $.getJSON('/receiveConfirmation?orderId=' + orderId,
+            function (result) {
+                if (result.code === 0) {
+                    showOrderDetails(result.data);
+                } else {
+                    alert(result.message);
+                }
+            }
+        )
+    })
+
+    function showOrderDetails(order) {
+        // 订单详情
+        let tableContainer = $('.confirmPayOrderItemTable');
+        $.each(order.orderItems, function (index, orderItem) {
+            tableContainer.append(`
+                <tr>
+                    <td><img width="60px" src="${orderItem.book.image}" referrerpolicy="no-referrer"></td>
+                    <td class="confirmPayOrderItemProductLink">
+                        <a href="./bookDetail.html?bookId=${orderItem.productId}"
+                           class="aStyle">${orderItem.book.bookName}</a>
+                    </td>
+                    <td>￥${orderItem.book.price}</td>
+                    <td>1</td>
+                    <td><span class="conformPayProductPrice">￥${orderItem.book.price}</span></td>
+                    <td><span>快递 ： 0.00 </span></td>
+                    <td><a href="./review.html?bookId=${orderItem.productId}&orderId=${order.id}" class="aStyle">评论</a></td>
+                 </tr>
+            `);
+        });
+        $('.confirmPayOrderItemSumPrice').text('￥ ' + order.total);
+    }
+</script>
+</html>

@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>个人信息</title>
+    <link rel="stylesheet" type="text/css" href="../css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/mygrxx.css"/>
+    <!-- 引入JQ和Bootstrap -->
+    <script src="../js/jquery/2.0.0/jquery.min.js"></script>
+    <script src="../js/bootstrap/3.3.6/bootstrap.min.js"></script>
+    <link href="../css/fore/style.css" rel="stylesheet">
+    <link href="../assets/css/bootstrap.css" rel="stylesheet">
+</head>
+<style>
+    /*导航栏和搜索框样式*/
+    .workArea {
+        width: 100%; /* 宽度为100%，充满整个屏幕宽度 */
+        height: 32px;
+        color: white;
+    }
+
+    #site-nav {
+        width: 100%;
+        position: fixed;
+        top: 0;
+        z-index: 99;
+        background-color: #000000;
+        height: 36px;
+        border-bottom: 1px solid #2b542c;
+        opacity: 0.6;
+    }
+
+    #site-nav span {
+        padding-left: 20px;
+        line-height: 32px;
+    }
+
+    .logoandsearchbox {
+        margin: 10px 0 0 0;
+        height: 120px;
+        width: 100%;
+        border-bottom: solid black;
+    }
+
+    .shouye {
+        height: 20px;
+        background-color: #2b542c;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-bottom: solid;
+    }
+
+    .f1 {
+        float: left;
+    }
+
+    .img1 {
+        border: 0;
+        width: 150px;
+        height: 100px;
+
+    }
+
+    .margin_wenzi {
+        margin-left: 0;
+        font-family: "Times New Roman", Georgia, Serif;
+        margin-top: 63px;
+    }
+
+    .searchLogo {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .shoppingCart {
+        width: 40px;
+        height: 40px;
+        margin-left: 60px;
+        cursor: pointer;
+    }
+
+    .people {
+        width: 40px;
+        height: 40px;
+        margin-left: 20px;
+        line-height: 30px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .searchSection {
+        width: 275px;
+        height: 40px;
+    }
+
+    .inputSearchDiv {
+        background-color: #FFC107;
+    }
+</style>
+<style>
+    ul > li {
+        color: #757575;
+    }
+
+    ul > li:hover {
+        color: #A10000;
+    }
+
+    .uploadInput {
+        background-color: #4889cf;
+        color: #fff;
+        padding: 10px 20px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        text-align: center;
+        transition: background-color 0.3s;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .uploadInput:hover {
+        background-color: #117297;
+    }
+
+    .tipInfo {
+        font-size: 14px;
+        color: black;
+    }
+
+    .submitButton {
+        display: flex;
+        justify-content: center;
+        margin: 10px 0px;
+    }
+
+    .file-upload {
+        display: block;
+        background-color: #ef6e6e;
+        color: #fff;
+        padding: 10px 20px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        text-align: center;
+        margin: 0 auto;
+        font-size: 16px;
+        font-weight: bold;
+        transition: background-color 0.3s;
+        width: 120px;
+    }
+
+    .file-upload:hover {
+        background-color: #cd4a4a; /* 鼠标悬停时的颜色 */
+    }
+
+    .logoutA{
+        text-decoration: none;
+        color: #777777;
+        transition: 0.3s;
+        cursor: pointer;
+    }
+    .logoutA:hover{
+        color: red;
+        text-decoration: none;
+    }
+    .editUserInfo{
+        color: #777777;
+        margin-top: 7px;
+        text-decoration: none;
+        transition: 0.3s;
+        font-size: 15px;
+    }
+    .editUserInfo:hover{
+        text-decoration: none;
+        color: red;
+    }
+
+</style>
+
+<body>
+<!-- 导航栏和搜索框 -->
+<nav id="site-nav" role="navigation">
+    <div class="workArea">
+        <div id="userNoLogin" style="display: none">
+            <span>欢迎来BOOKSTORM</span>
+            <span><a href="./index.html" style="color: white">首页</a></span>
+            <span><a href="./login.html" style="color: white">请登录</a></span>
+            <span><a href="./register.html" style="color: white">注册</a></span>
+        </div>
+        <!-- 用户登录时包含的 <div> -->
+        <div id="userLoggedInDiv" style="display: none">
+            <span>
+                <img class="userImage" src="" referrerpolicy="no-referrer"
+                     style="width: 32px; height: 32px; border-radius: 16px">
+            </span>
+            <span>Hi，<span id="userName"></span></span>
+            <span><a href="/logout" style="color: white">退出</a></span>
+            <span><a href="./index.html" style="color: white">首页</a></span>
+        </div>
+    </div>
+</nav>
+
+<div class="logoandsearchbox max-width margin-auto clearfix">
+    <div class="f1">
+        <img class="img1" src="../img/fore/tmall-logo-new.png">
+    </div>
+    <div class="f1 margin_wenzi">
+        美好的一天从读书开始
+    </div>
+    <div class="mallSearch-input">
+        <!--搜索框-->
+        <div class="f1 inputSearchDiv">
+            <input placeholder="书名、作者、ISBN" class="inputSearch" name="keyword">
+        </div>
+        <div class="searchSection">
+            <!-- 搜索 -->
+            <div class="f1 searchLogo">
+                <img src="../img/fore/search_logo1.jpg" width="30px" height="30px" onclick="getSearchResult()">
+            </div>
+            <!--购物车-->
+            <div class="shoppingCart f1">
+                <a href="./cart.html">
+                    <img src="../img/fore/shopping.jpg" width="40px" height="40px">
+                </a>
+            </div>
+            <!--个人中心-->
+            <div class="people f1">
+                <a href="./personalCenter.html">
+                    <img src="../img/fore/people.png" width="30px" height="30px">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--------------------------------------->
+
+<div class="address mt">
+    <div class="wrapper clearfix">
+        <a href="./index.html" class="fl">首页</a>
+        <span>/</span>
+        <a href="./personalCenter.html" class="on">个人中心</a>
+        <span>/</span>
+        <a href="./mineMessage.html" class="on">个人信息</a>
+    </div>
+</div>
+
+<!------------------------------Bott------------------------------>
+<div class="Bott">
+    <div class="wrapper clearfix">
+        <div class="zuo fl">
+            <h3>
+                <a href="#" style="border: none; cursor: auto;">
+                    <!--个人图片 -->
+                    <img class="userImage" referrerpolicy="no-referrer"
+                         style="width: 90px; height: 90px; border-radius: 45px;"/>
+                </a>
+                <p class="clearfix">
+                    <!-- 个人名称 -->
+                    <span class="fl userName"></span>
+                    <span class="/lofo">
+                        <a href="/logout" class="logoutA">[退出登录]</a>
+                    </span>
+            </h3>
+            <div>
+                <h4>我的交易</h4>
+                <ul>
+                    <li><a href="./cart.html">我的购物车</a></li>
+                    <li><a href="./myOrder.html">我的订单</a></li>
+                </ul>
+                <h4>个人中心</h4>
+                <ul>
+                    <li><a href="./personalCenter.html">我的中心</a></li>
+                    <li><a href="./address.html">地址管理</a></li>
+                </ul>
+                <h4>账户管理</h4>
+                <ul>
+                    <li><a href="./mineMessage.html" style="color: #A10000">个人信息</a></li>
+                    <li><a href="./updatePassword.html">修改密码</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="you fl" style="height: 533px">
+            <h2>个人信息</h2>
+            <div class="gxin">
+                <div class="tx">
+                    <a href="#" style="border: none">
+                        <!-- 个人图片 -->
+                        <img class="userImage" referrerpolicy="no-referrer"
+                             style="width: 90px; height: 90px; border-radius: 45px"/>
+                        <p id="avatar">修改头像</p></a></div>
+                <!-- 个人信息 -->
+                <div class="xx userInfo">
+                    <h3 class="clearfix">
+                        <strong class="fl">基础资料</strong>
+                        <a href="#" class="fr editUserInfo" id="edit1" onclick="getData()">编辑</a>
+                    </h3>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--编辑弹框-->
+<div class="bj">
+    <div class="clearfix"><a href="#" class="fr gb"><img src="../img/icon4.png"/></a></div>
+    <h3>编辑基础资料</h3>
+    <form>
+        <p><label>姓名：</label><input type="text" id="name"/></p>
+        <p><label>电话：</label><input type="text" id="phone"/></p>
+        <p><label>年龄：</label><input type="text" id="age"/></p>
+        <p><label>邮件：</label><input type="text" id="email"/></p>
+        <p>
+            <label>性别：</label>
+            <!-- 加上 value 属性, 选中的值就为 value -->
+            <span style="font-size:20px"><input type="radio" value="男" class="sex" name="sex"/>男</span>
+            <span style="font-size:20px"><input type="radio" value="女" class="sex" name="sex"/>女</span>
+        </p>
+        <div class="bc">
+            <input type="submit" value="修改" onclick="submitUserInfo()"/>
+            <input type="button" value="取消"/>
+        </div>
+    </form>
+</div>
+
+<!--修改头像-->
+<div class="avatar">
+    <div class="clearfix"><a href="#" class="fr gb"><img src="../img/icon4.png"/></a></div>
+    <h3 style="font-size: 20px;">修改头像</h3>
+    <!-- 上传图片 -->
+    <div class="submitButton">
+        <label for="fileInput" class="uploadInput">
+            <input type="file" id="fileInput" accept=".jpg, .jpeg, .png" onchange="updateUploadText(this);"
+                   style="display: none">
+            <span id="uploadText">上传头像</span>
+        </label>
+    </div>
+    <p class="tipInfo">图片格式为 jpg 或 png，大小尽量不超过 5 M，否则上传时间可能过长！</p>
+    <button class="file-upload" onclick="uploadFile()">
+        <span class="submitFont">提交</span>
+    </button>
+</div>
+
+<!--返回顶部-->
+<div class="gotop">
+    <a href="./cart.html">
+        <dl>
+            <dt><img src="../img/gt1.png"/></dt>
+            <dd>去购<br/>物车</dd>
+        </dl>
+    </a>
+    <a href="#" class="dh">
+        <dl>
+            <dt><img src="../img/gt2.png"/></dt>
+            <dd>联系<br/>客服</dd>
+        </dl>
+    </a>
+    <a href="./personalCenter.html">
+        <dl>
+            <dt><img src="../img/gt3.png"/></dt>
+            <dd>个人<br/>中心</dd>
+        </dl>
+    </a>
+    <a href="#" class="toptop" style="display: none">
+        <dl>
+            <dt><img src="../img/gt4.png"/></dt>
+            <dd>返回<br/>顶部</dd>
+        </dl>
+    </a>
+    <p>400-800-8200</p>
+</div>
+<!--footer-->
+<div class="footer">
+    <div class="top">
+        <div class="wrapper">
+            <div class="clearfix">
+                <a href="#2" class="fl"><img src="../img/foot1.png"/></a>
+                <span class="fl">7天无理由退货</span>
+            </div>
+            <div class="clearfix">
+                <a href="#2" class="fl"><img src="../img/foot2.png"/></a>
+                <span class="fl">15天免费换货</span>
+            </div>
+            <div class="clearfix">
+                <a href="#2" class="fl"><img src="../img/foot3.png"/></a>
+                <span class="fl">满599包邮</span>
+            </div>
+            <div class="clearfix">
+                <a href="#2" class="fl"><img src="../img/foot4.png"/></a>
+                <span class="fl">手机特色服务</span>
+            </div>
+        </div>
+    </div>
+    <p class="dibu">WELCOME TO<br/>BOOKSTORM</p>
+</div>
+</body>
+
+<script src="../js/jquery-1.12.4.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/public.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/user.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    // 获取用户信息
+    $(function () {
+        $.getJSON('/mineMessage',
+            function (result) {
+                let redirect = result.data;
+                if (redirect === undefined || redirect === null) {
+                    $('#userNoLogin').show();
+                } else {
+                    // 显示用户登录时的 <div> 并设置用户信息
+                    let user = result.data;
+                    $('#userLoggedInDiv').show();
+                    $('.userImage').attr('src', user.image);
+                    $('#userName').text(user.name);
+                }
+            }
+        );
+    })
+
+    $(function () {
+        $('input[name="keyword"]').on('keypress', function (event) {
+            if (event.which === 13) {
+                // 13 是回车键的键码
+                getSearchResult();
+            }
+        });
+    })
+
+    // 搜索框
+    function getSearchResult() {
+        let keyword = $('input[name="keyword"]').val();
+        keyword = keyword.trim();
+        if (keyword.length <= 0) {
+            $('input[name="keyword"]').val('');
+            alert("请输入查询关键词! (书名、作者、ISBN)");
+        } else {
+            location.assign(`./searchResult.html?keyword=${keyword}`);
+        }
+    }
+</script>
+<script>
+
+    // 将用户信息设置为全局变量, 因为其他的函数需要用到
+    let userInfo = {
+        name: '',
+        age: 0,
+        sex: '',
+        phone: '',
+        email: '',
+    };
+    $(function () {
+        $.getJSON('/mineMessage',
+            function (result) {
+                let user = result.data;
+                $('.userImage').attr('src', user.image);
+                $('.userName').text(user.name);
+
+                $('.userInfo div:eq(0)').text('姓名：' + user.name);
+                $('.userInfo div:eq(1)').text('年龄：' + user.age);
+                $('.userInfo div:eq(2)').text('性别：' + user.sex);
+                $('.userInfo div:eq(3)').text('电话：' + user.phone);
+                $('.userInfo div:eq(4)').text('电子邮箱：' + user.email);
+                userInfo.name = user.name;
+                userInfo.age = user.age;
+                userInfo.sex = user.sex;
+                userInfo.phone = user.phone;
+                userInfo.email = user.email;
+            }
+        )
+    })
+
+    function submitUserInfo() {
+        $.post('/updateMyMessage',
+            {
+                name: $('#name').val(),
+                phone: $('#phone').val(),
+                age: $('#age').val(),
+                email: $('#email').val(),
+                sex: $('.sex:checked').val()
+            },
+            function (result) {
+            let user = result.data;
+                if (result.code === 0) {
+                    $('.userImage').attr('src', user.image);
+                    $('.userName').text(user.name);
+
+                    $('.userinfo div:eq(0)').text('姓名：' + user.name);
+                    $('.userinfo div:eq(1)').text('年龄：' + user.age);
+                    $('.userinfo div:eq(2)').text('性别：' + user.sex);
+                    $('.userinfo div:eq(3)').text('电话：' + user.phone);
+                    $('.userinfo div:eq(4)').text('电子邮箱：' + user.email);
+                }else{
+                    alert(result.data.message)
+                }
+            }
+        )
+    }
+
+    //点击编辑按钮, 加载用户信息,
+    function getData() {
+        $('#name').val(userInfo.name);
+        $('#phone').val(userInfo.phone);
+        $('#age').val(userInfo.age);
+        $('#email').val(userInfo.email);
+        // 用户性别以图标的方式展示
+        $('.sex[value="' + userInfo.sex + '"]').prop('checked', true);
+    }
+
+    // 用户选择头像后, 提示用户已选择头像
+    function updateUploadText(input) {
+        const uploadText = $("#uploadText");
+        if (input.files.length > 0) {
+            uploadText.text("已选择头像");
+        } else {
+            uploadText.text("上传头像");
+        }
+    }
+
+    function closeUpdateImage() {
+        $('.avatar').hide();
+    }
+
+    // 上传图片
+    function uploadFile() {
+        let fileInput = document.getElementById('fileInput');
+        let file = fileInput.files[0];
+        if (file) {
+            // 按钮不可点击
+            $('.file-upload').prop('disabled', true);
+
+            let formData = new FormData();
+            formData.append('file', file);
+
+            // 使用 AJAX 进行文件上传
+            $.ajax({
+                url: '/updateImg',
+                type: 'POST',
+                data: formData,
+                // 禁用 jQuery 的数据序列化
+                processData: false,
+                // FormData数包含文件数据, 浏览器会自动设置上传文件的格式
+                contentType: false,
+                success: function (result) {
+                    // 按钮可以点击
+                    $('.file-upload').prop('disabled', false);
+                    closeUpdateImage();
+                    // 上传成功, 直接展示图片
+                    if (result.code === 0 && result.message !== null) {
+                        $('.userImage').attr('src', result.data);
+                    } else {
+                        // 后端最多等待3秒钟, 便返回, 后续会自动把上传好的图片返回, 这里后续监听五次
+                        setTimeout(function() {
+                            // 最多检查 5 次
+                            checkUploadStatus(5);
+                        }, 2000); // 每2秒轮询一次
+                        alert(result.message);
+                    }
+                }
+            });
+        } else {
+            alert('请先选择一个文件');
+        }
+    }
+
+    // 检查图片上传状态
+    function checkUploadStatus(maxAttempts) {
+        $.getJSON('/checkUploadStatus',
+            function (result) {
+                if (result.code !== 0 && maxAttempts > 0) {
+                    // 递归调用，最多尝试 maxAttempts 次
+                    setTimeout(function() {
+                        checkUploadStatus(maxAttempts - 1);
+                    }, 2000); // 每2秒轮询一次
+                } else if (result.code === 0) {
+                    // 上传完成，更新图像
+                    $('.userImage').attr('src', result.data);
+                }
+            }
+        );
+    }
+
+</script>
+</html>

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="UTF-8"/>
+    <title>注册界面</title>
+    <!-- 引入JQ和Bootstrap -->
+    <script src="../js/jquery/2.0.0/jquery.min.js"></script>
+    <script src="../js/bootstrap/3.3.6/bootstrap.min.js"></script>
+    <link href="../css/fore/style.css" rel="stylesheet">
+    <link href="../assets/css/bootstrap.css" rel="stylesheet">
+</head>
+
+<body>
+<style>
+    html, body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .header {
+        padding: 22px 0;
+        height: 88px;
+        width: 1190px;
+        margin: auto;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .header .tm-logo {
+        margin-top: 8px;
+        width: 190px;
+    }
+
+    #mallPage, #mallPage.mallChn {
+        width: auto;
+        min-width: 990px;
+        background-color: transparent;
+    }
+
+    .content {
+        width: 100%;
+        height: 100%;
+        background: url(../img/temp/20.jpg) no-repeat;
+        background-size: 100% 100%;
+
+    }
+
+    .login-banner-wrap img {
+        display: block;
+        margin: auto;
+    }
+
+    .content .form {
+        display: none;
+        position: absolute;
+        top: 91px;
+        right: 60px;
+        background: #fff;
+    }
+
+    .form-inner {
+        padding: 25px 26px 20px;
+        width: 350px;
+        height: 500px;
+    }
+
+    .static-form {
+        display: block;
+        position: relative;
+    }
+
+    .login-title {
+        height: 18px;
+        line-height: 18px;
+        font-size: 16px;
+        color: #3c3c3c;
+        margin-top: 19px;
+        padding-bottom: 8px;
+        font-weight: 700;
+    }
+
+    .field {
+        margin-top: 25px;
+        position: relative;
+    }
+
+    div.field {
+        border: 1px solid #CBCBCB;
+        margin: 20px 0;
+    }
+
+    div.field span.loginInputIcon {
+        margin: 0;
+        background-color: #CBCBCB;
+        width: 40px;
+        height: 40px;
+        display: inline-block;
+    }
+
+    span.loginInputIcon span.glyphicon {
+        font-size: 22px;
+        position: relative;
+        left: 9px;
+        top: 9px;
+        color: #606060;
+    }
+
+    div.field input {
+        display: inline-block;
+        border: 0 solid transparent;
+        width: 244px;
+        height: 30px;
+        position: relative;
+        left: 6px;
+        top: 6px;
+    }
+
+    button.redButton {
+        color: white;
+        background-color: #FF0036;
+        font-size: 16px;
+        font-weight: 700;
+        height: 42px;
+        line-height: 42px;
+        vertical-align: middle;
+        width: 300px;
+        border-radius: 3px;
+        border: 0;
+    }
+
+    button.redButton:hover {
+        background-color: rgba(255, 0, 54, .8);
+    }
+
+
+    #i {
+        height: 15px;
+        color: blue;
+        font-size: 13px;
+        width: 180px
+    }
+
+    table {
+        text-align: left;
+    }
+
+    #t {
+        text-align: right;
+        width: 95px;
+        font-size: 18px;
+        font-family: '华文楷体';
+    }
+</style>
+<div class="content">
+    <div class="form" style="display: block; right: 80.5px;">
+        <div class="form-inner" STYLE="width: 450px">
+            <div class="static-form">
+                <div class="loginErrorMessageDiv" style="display: none;">
+                    <div class="alert alert-danger">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+                        <span class="errorMessage"></span>
+                    </div>
+                </div>
+                <div class="login-title" style="margin-bottom: 20px;font-size: 21px;"><b>用户注册</b></div>
+
+                <div class="loginForm">
+                    <table border="0" align="center" width="400px">
+                        <tr>
+                            <td align="right" id="t">用户名:*</td>
+                            <td style="width:70px;"><input type="text" name="name"/></td>
+                            <td id="i">由字母开头</td>
+                        </tr>
+                        <tr style="height:10px;">
+                        </tr>
+                        <tr>
+                            <td align="right" id="t">密码:*</td>
+                            <td><input type="password" name="password"/></td>
+                            <td id="i">设置登录密码，至少六位！</td>
+                        </tr>
+                        <tr style="height:10px;">
+                        </tr>
+                        <tr>
+                            <td align="right" id="t">确认密码:*</td>
+                            <td><input type="password" name="passwordAgain"/></td>
+                            <td id="i">请再次输入你的密码！</td>
+                        </tr>
+                        <tr style="height:10px;">
+                        </tr>
+                        <tr>
+                            <td align="right" id="t">性别:*</td>
+                            <td><input type="radio" name="sex value=" 男" checked/>男
+                                <input type="radio" name="sex" value="女"/>女
+                            </td>
+                            <td id="i">请选择你的性别！</td>
+                        </tr>
+                        <tr style="height:10px;">
+                        </tr>
+                        <tr>
+                            <td align="right" id="t">年龄:*</td>
+                            <td><input type="text" name="age"/></td>
+                        </tr>
+                        <tr style="height:10px;">
+                        </tr>
+                        <tr>
+                            <td align="right" id="t">邮箱地址:</td>
+                            <td><input type="text" name="email"/>
+                            </td>
+                        </tr>
+                        <tr style="height:10px;">
+                        </tr>
+                        <tr>
+                            <td align="right" id="t">电话:</td>
+                            <td><input type="text" name="phone"/>
+                            </td>
+                        </tr>
+                        <tr style="height:5px;">
+                        </tr>
+                        <tr>
+                            <td colspan="3" align="center">
+                                <button class="submitButton" onClick="validate()"
+                                        style="background-color:red;width:360px;height:42px;color: whitesmoke">注 册
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                    <div style="margin-top: 20px;">
+                        <a href="./login.html" class="pull-right">登录</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    // 监听回车键事件
+   $(function () {
+       $("input[name='phone']").on("keyup", function(event) {
+           if (event.key === "Enter") {
+               // 当按下回车键时触发注册
+               $(this).blur();
+              validate();
+           }
+       });
+   })
+
+    function register() {
+        $.post("/register",
+            {
+                name: $("[name='name']").val(),
+                password: $("[name='password']").val(),
+                passwordAgain: $("[name='passwordAgain']").val(),
+                sex: $("[name='sex']").val(),
+                age: $("[name='age']").val(),
+                email: $("[name='email']").val(),
+                phone: $("[name='phone']").val()
+            }, function (result) {
+                if (result.code === 0) {
+                    location.assign("./login.html");
+                } else {
+                    alert(result.message);
+                }
+            }
+        );
+    }
+
+    // dom元素加载完触发该函数
+    $(function () {
+        // 获取焦点 input 时触发函数
+        $("div.loginForm input").focus(function () {
+            $("div.loginErrorMessageDiv").hide();
+        });
+    })
+
+    function validate() {
+        let name = $("[name='name']").val();
+        let pwd = $("[name='password']").val();
+        let pwd1 = $("[name='passwordAgain']").val();
+        let age = $("[name='age']").val();
+        let regex = /[a-zA-Z]\w*/;
+        console.log(1111111)
+        if (name.length <= 0) {
+            $('.errorMessage').text("用户名不能为空");
+            $("div.loginErrorMessageDiv").show();
+        } else if (!regex.test(name)) {
+            $('.errorMessage').text("用户名格式不正确！");
+            $("div.loginErrorMessageDiv").show();
+        } else if (pwd.length < 6) {
+            $('.errorMessage').text("密码长度必须大于等于6！");
+            $("div.loginErrorMessageDiv").show();
+        } else if (pwd !== pwd1) {
+            $('.errorMessage').text("两次密码不一致！");
+            $("div.loginErrorMessageDiv").show();
+        } else if (age < 1 || age > 100) {
+            $('.errorMessage').text("年龄范围应该为1岁至100岁！");
+            $("div.loginErrorMessageDiv").show();
+        } else {
+            register();
+        }
+    }
+
+</script>
+</html>

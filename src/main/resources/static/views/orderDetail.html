@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>个人信息</title>
+    <link rel="stylesheet" type="text/css" href="../css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/myorder.css"/>
+    <!-- 引入JQ和Bootstrap -->
+    <script src="../js/jquery/2.0.0/jquery.min.js"></script>
+    <script src="../js/bootstrap/3.3.6/bootstrap.min.js"></script>
+    <link href="../css/fore/style.css" rel="stylesheet">
+    <link href="../assets/css/bootstrap.css" rel="stylesheet">
+</head>
+<style>
+    /*导航栏和搜索框样式*/
+    .workArea {
+        width: 100%; /* 宽度为100%，充满整个屏幕宽度 */
+        height: 32px;
+        color: white;
+    }
+
+    #site-nav {
+        width: 100%;
+        position: fixed;
+        top: 0;
+        z-index: 99;
+        background-color: #000000;
+        height: 36px;
+        border-bottom: 1px solid #2b542c;
+        opacity: 0.6;
+    }
+
+    #site-nav span {
+        padding-left: 20px;
+        line-height: 32px;
+    }
+
+    .logoandsearchbox {
+        margin: 10px 0 0 0;
+        height: 120px;
+        width: 100%;
+        border-bottom: solid black;
+    }
+
+    .shouye {
+        height: 20px;
+        background-color: #2b542c;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-bottom: solid;
+    }
+
+    .f1 {
+        float: left;
+    }
+
+    .img1 {
+        border: 0;
+        width: 150px;
+        height: 100px;
+
+    }
+
+    .margin_wenzi {
+        margin-left: 0;
+        font-family: "Times New Roman", Georgia, Serif;
+        margin-top: 63px;
+    }
+
+    .searchLogo {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .shoppingCart {
+        width: 40px;
+        height: 40px;
+        margin-left: 60px;
+        cursor: pointer;
+    }
+
+    .people {
+        width: 40px;
+        height: 40px;
+        margin-left: 20px;
+        line-height: 30px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .searchSection {
+        width: 275px;
+        height: 40px;
+    }
+
+    .inputSearchDiv {
+        background-color: #FFC107;
+    }
+</style>
+<style>
+    .bookDetail a {
+        cursor: text;
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+    .logoutA {
+        text-decoration: none;
+        color: #777777;
+        transition: 0.3s;
+        cursor: pointer;
+    }
+
+    .logoutA:hover {
+        color: red;
+        text-decoration: none;
+    }
+
+</style>
+<body>
+<!-- 导航栏和搜索框 -->
+<nav id="site-nav" role="navigation">
+    <div class="workArea">
+        <div id="userNoLogin" style="display: none">
+            <span>欢迎来BOOKSTORM</span>
+            <span><a href="./index.html" style="color: white">首页</a></span>
+            <span><a href="./login.html" style="color: white">请登录</a></span>
+            <span><a href="./register.html" style="color: white">注册</a></span>
+        </div>
+        <!-- 用户登录时包含的 <div> -->
+        <div id="userLoggedInDiv" style="display: none">
+            <span>
+                <img class="userImage" src="" referrerpolicy="no-referrer"
+                     style="width: 32px; height: 32px; border-radius: 16px">
+            </span>
+            <span>Hi，<span id="userName"></span></span>
+            <span><a href="/logout" style="color: white">退出</a></span>
+            <span><a href="./index.html" style="color: white">首页</a></span>
+        </div>
+    </div>
+</nav>
+
+<div class="logoandsearchbox max-width margin-auto clearfix">
+    <div class="f1">
+        <img class="img1" src="../img/fore/tmall-logo-new.png">
+    </div>
+    <div class="f1 margin_wenzi">
+        美好的一天从读书开始
+    </div>
+    <div class="mallSearch-input">
+        <!--搜索框-->
+        <div class="f1 inputSearchDiv">
+            <input placeholder="书名、作者、ISBN" class="inputSearch" name="keyword">
+        </div>
+        <div class="searchSection">
+            <!-- 搜索 -->
+            <div class="f1 searchLogo">
+                <img src="../img/fore/search_logo1.jpg" width="30px" height="30px" onclick="getSearchResult()">
+            </div>
+            <!--购物车-->
+            <div class="shoppingCart f1">
+                <a href="./cart.html">
+                    <img src="../img/fore/shopping.jpg" width="40px" height="40px">
+                </a>
+            </div>
+            <!--个人中心-->
+            <div class="people f1">
+                <a href="./personalCenter.html">
+                    <img src="../img/fore/people.png" width="30px" height="30px">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--------------------------------------->
+
+<div class="address mt">
+    <div class="wrapper clearfix">
+        <a href="./index.html" class="fl">首页</a>
+        <span>/</span>
+        <a href="./myOrder.html" class="on">我的订单</a>
+        <span>/</span>
+        <a href="#" class="on">订单详情</a>
+    </div>
+</div>
+
+<!------------------------------Bott------------------------------>
+<div class="Bott">
+    <div class="wrapper clearfix">
+        <div class="zuo fl">
+            <h3>
+                <a href="#" style="border: none; cursor:auto">
+                    <!-- 个人图片 -->
+                    <img class="userImage" referrerpolicy="no-referrer"
+                         style="width: 90px; height: 90px; border-radius: 45px;"/>
+                </a>
+
+                <p class="clearfix">
+                    <!-- 个人名称 -->
+                    <span class="fl userName"></span>
+                    <span class="/lofo">
+                        <a href="/logout" class="logoutA">[退出登录]</a>
+                    </span>
+                </p>
+            </h3>
+            <div>
+                <h4>我的交易</h4>
+                <ul>
+                    <li><a href="./cart.html">我的购物车</a></li>
+                    <li><a href="./myOrder.html" style="color: #A10000">我的订单</a></li>
+                </ul>
+                <h4>个人中心</h4>
+                <ul>
+                    <li class="on"><a href="./personalCenter.html" style="color: #757575">我的中心</a></li>
+                    <li><a href="./address.html" style="color: #757575">地址管理</a></li>
+                </ul>
+                <h4>账户管理</h4>
+                <ul>
+                    <li><a href="./mineMessage.html" style="color: #757575">个人信息</a></li>
+                    <li><a href="./updatePassword.html" style="color: #757575">修改密码</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="you fl">
+            <div class="my clearfix">
+                <h2 style="font-family: 华文楷体;color: red">订单详情</h2>
+                <!-- 订单号 -->
+                <h3 style="font-family: 华文楷体">订单号：<span class="orderCode"></span></h3>
+            </div>
+            <div class="orderList" style="font-family: 华文楷体">
+                <div class="orderList1 styleP">
+                    <!-- 订单状态 -->
+                    <h3 class="orderStatusTitle" style="font-size: 20px;font-weight: 500;"></h3>
+
+                    <!-- 书籍详情 -->
+                    <div class="clearfix">
+                        <!-- 书籍详情跳转 -->
+                        <a class="fl bookNav">
+                            <!-- 书籍图片 -->
+                            <img class="bookImage" style="width: 160px;height: 225px" referrerpolicy="no-referrer">
+                        </a>
+                        <p class="fl bookDetail">
+                            <a>书名：</a>
+                            <br>
+                            <a>价格：</a>
+                            <br>
+                            <a>作者：</a>
+                            <br>
+                            <a>ISBN：</a>
+                            <br>
+                            <a>出版社：</a>
+                            <br>
+                            <a>出版日期：</a>
+                        </p>
+                        <p class="fl">
+                            <!-- 书籍内容 -->
+                            <a href="#" class="bookInfo"></a>
+                        </p>
+
+                    </div>
+                </div>
+                <!-- 用户信息 -->
+                <div class="orderList1 confirmDetail styleP">
+                    <h3 style="font-size: 20px; font-weight: 500;">收货信息</h3>
+                    <p>姓 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：<span></span></p>
+                    <p>联系电话：<span></span></p>
+                    <p>收货地址：<span></span></p>
+                </div>
+                <div class="orderList1 styleP">
+                    <h3>支付方式及送货时间</h3>
+                    <p>支付方式：<span>在线支付</span></p>
+                    <p>送货时间：<span>不限送货时间</span></p>
+                </div>
+                <!-- 订单信息 -->
+                <div class="orderList1 hei orderDetail styleP">
+                    <h3><strong>商品单价：</strong><span>¥ </span></h3>
+                    <p><strong>运费：</strong><span>¥ 0</span></p>
+                    <p><strong>订单金额：</strong><span>¥ </span></p>
+                    <p><strong>实付金额：</strong><span>¥ </span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--返回顶部-->
+<div class="gotop">
+    <a href="./cart.html">
+        <dl>
+            <dt><img src="../img/gt1.png"/></dt>
+            <dd>去购<br/>物车</dd>
+        </dl>
+    </a>
+    <a href="#" class="dh">
+        <dl>
+            <dt><img src="../img/gt2.png"/></dt>
+            <dd>联系<br/>客服</dd>
+        </dl>
+    </a>
+    <a href="./personalCenter.html">
+        <dl>
+            <dt><img src="../img/gt3.png"/></dt>
+            <dd>个人<br/>中心</dd>
+        </dl>
+    </a>
+    <a href="#" class="toptop" style="display: none">
+        <dl>
+            <dt><img src="../img/gt4.png"/></dt>
+            <dd>返回<br/>顶部</dd>
+        </dl>
+    </a>
+    <p>400-800-8200</p>
+</div>
+<!--footer-->
+<div class="footer">
+    <div class="top">
+        <div class="wrapper">
+            <div class="clearfix">
+                <a href="#2" class="fl"><img src="../img/foot1.png"/></a>
+                <span class="fl">7天无理由退货</span>
+            </div>
+            <div class="clearfix">
+                <a href="#2" class="fl"><img src="../img/foot2.png"/></a>
+                <span class="fl">15天免费换货</span>
+            </div>
+            <div class="clearfix">
+                <a href="#2" class="fl"><img src="../img/foot3.png"/></a>
+                <span class="fl">满599包邮</span>
+            </div>
+            <div class="clearfix">
+                <a href="#2" class="fl"><img src="../img/foot4.png"/></a>
+                <span class="fl">手机特色服务</span>
+            </div>
+        </div>
+    </div>
+    <p class="dibu">WELCOME TO<br/>BOOKSTORM</p>
+</div>
+</body>
+
+<script src="../js/jquery-1.12.4.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/public.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/user.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    // 获取用户信息
+    $(function () {
+        $.getJSON('/mineMessage',
+            function (result) {
+                let redirect = result.data;
+                if (redirect === undefined || redirect === null) {
+                    $('#userNoLogin').show();
+                } else {
+                    // 显示用户登录时的 <div> 并设置用户信息
+                    let user = result.data;
+                    $('#userLoggedInDiv').show();
+                    $('.userImage').attr('src', user.image);
+                    $('#userName').text(user.name);
+                }
+            }
+        );
+    })
+
+    $(function () {
+        $('input[name="keyword"]').on('keypress', function (event) {
+            if (event.which === 13) {
+                // 13 是回车键的键码
+                getSearchResult();
+            }
+        });
+    })
+
+    // 搜索框
+    function getSearchResult() {
+        let keyword = $('input[name="keyword"]').val();
+        keyword = keyword.trim();
+        if (keyword.length <= 0) {
+            $('input[name="keyword"]').val('');
+            alert("请输入查询关键词! (书名、作者、ISBN)");
+        } else {
+            location.assign(`./searchResult.html?keyword=${keyword}`);
+        }
+    }
+</script>
+<script>
+    let urlObj = new URLSearchParams(window.location.search);
+    let bookId = urlObj.get('bookId');
+    let orderId = urlObj.get('orderId');
+    $(function () {
+        $.getJSON(`/orderDetail?bookId=${bookId}&orderId=${orderId}`,
+            function (result) {
+                let user = result.data.user;
+                let book = result.data.book;
+                let order = result.data.order;
+                showConfirmDetail(user, order.address);
+                showBookDetail(book);
+                showOrderDetail(order, book.price);
+            }
+        )
+    })
+
+    function showConfirmDetail(user, address) {
+        $('.userImage').attr('src', user.image);
+        $('.userName').text(user.name);
+
+        var allSpans = $('.orderList1.confirmDetail span');
+        allSpans.eq(0).text(user.name);
+        allSpans.eq(1).text(user.phone);
+        allSpans.eq(2).text(address);
+    }
+
+    function showBookDetail(book) {
+        let bookDetailLinks = $('.bookDetail a');
+        $('.bookNav').attr('href', './bookDetail.html?bookId=' + book.id);
+        $('.bookImage').attr('src', book.image);
+        bookDetailLinks.eq(0).append(book.bookName);
+        bookDetailLinks.eq(1).append('￥' + book.price + ' × 1');
+        bookDetailLinks.eq(2).append(book.author);
+        bookDetailLinks.eq(3).append(book.isbn);
+        bookDetailLinks.eq(4).append(book.publicSource);
+        bookDetailLinks.eq(5).append(book.date);
+        let bookInfo = book.bookInfo;
+        if (bookInfo.length > 500) {
+            bookInfo = bookInfo.substring(0, 500) + '...';
+        }
+        $('.bookInfo').text(bookInfo);
+
+
+    }
+
+    function showOrderDetail(order, bookPrice) {
+        // 订单号
+        $('.orderCode').text(order.orderCode);
+        // 订单状态
+        let title = $('.orderStatusTitle');
+        switch (order.status) {
+            case 'waitPay':
+                title.text('待支付');
+                break;
+            case 'waitDelivery':
+                title.text('待发货');
+                break;
+            case 'waitConfirm':
+                title.text('待接收');
+                break;
+            case 'waitReview':
+                title.text('待评价');
+                break;
+            case 'finish':
+                title.text('已完成');
+                break;
+        }
+
+        // 订单信息
+        // 订单中的商品单价
+        $('.orderList1 h3 span').append(bookPrice);
+        let orderPrice = $('.orderDetail p span');
+        orderPrice.eq(-2).append(order.total);
+        orderPrice.eq(-1).append(order.total);
+    }
+</script>
+</html>

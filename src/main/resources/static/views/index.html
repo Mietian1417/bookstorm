@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BOOKSTORM</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/proList.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/index.css"/>
+    <!-- 引入JQ和Bootstrap -->
+    <script src="../js/jquery/2.0.0/jquery.min.js"></script>
+    <script src="../js/bootstrap/3.3.6/bootstrap.min.js"></script>
+    <link href="../css/fore/style.css" rel="stylesheet">
+    <link href="../assets/css/bootstrap.css" rel="stylesheet">
+</head>
+
+<style>
+    dl > dd {
+        color: black;
+    }
+
+    h2 {
+        font-size: 25px;
+        font-weight: bold;
+    }
+
+    a {
+        color: black;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+
+    dd {
+        transition: 0.3s;
+    }
+
+    dd:hover {
+        color: red;
+    }
+
+    /*导航栏和搜索框样式*/
+    .workArea {
+        width: 100%; /* 宽度为100%，充满整个屏幕宽度 */
+        height: 32px;
+        color: white;
+    }
+
+    #site-nav {
+        width: 100%;
+        position: fixed;
+        top: 0;
+        z-index: 99;
+        background-color: #000000;
+        height: 36px;
+        border-bottom: 1px solid #2b542c;
+        opacity: 0.6;
+    }
+
+    #site-nav span {
+        padding-left: 20px;
+        line-height: 32px;
+    }
+
+    .logoandsearchbox {
+        margin: 10px 0 0 0;
+        height: 120px;
+        width: 100%;
+        border-bottom: solid black;
+    }
+
+    .shouye {
+        height: 20px;
+        background-color: #2b542c;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-bottom: solid;
+    }
+
+    .f1 {
+        float: left;
+    }
+
+    .img1 {
+        border: 0;
+        width: 150px;
+        height: 100px;
+
+    }
+
+    .margin_wenzi {
+        margin-left: 0;
+        font-family: "Times New Roman", Georgia, Serif;
+        margin-top: 63px;
+    }
+
+    .searchLogo {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .shoppingCart {
+        width: 40px;
+        height: 40px;
+        margin-left: 60px;
+        cursor: pointer;
+    }
+
+    .people {
+        width: 40px;
+        height: 40px;
+        margin-left: 20px;
+        line-height: 30px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .searchSection {
+        width: 275px;
+        height: 40px;
+    }
+
+    .inputSearchDiv {
+        background-color: #FFC107;
+    }
+</style>
+
+<body>
+<!-- 导航栏和搜索框 -->
+<nav id="site-nav" role="navigation">
+    <div class="workArea">
+        <div id="userNoLogin" style="display: none">
+            <span>欢迎来BOOKSTORM</span>
+            <span><a href="./index.html" style="color: white">首页</a></span>
+            <span><a href="./login.html" style="color: white">请登录</a></span>
+            <span><a href="./register.html" style="color: white">注册</a></span>
+        </div>
+        <!-- 用户登录时包含的 <div> -->
+        <div id="userLoggedInDiv" style="display: none">
+            <span>
+                <img class="userImage" src="" referrerpolicy="no-referrer"
+                     style="width: 32px; height: 32px; border-radius: 16px">
+            </span>
+            <span>Hi，<span id="userName"></span></span>
+            <span><a href="/logout" style="color: white">退出</a></span>
+            <span><a href="./index.html" style="color: white">首页</a></span>
+        </div>
+    </div>
+</nav>
+
+<div class="logoandsearchbox max-width margin-auto clearfix">
+    <div class="f1">
+        <img class="img1" src="../img/fore/tmall-logo-new.png">
+    </div>
+    <div class="f1 margin_wenzi">
+        美好的一天从读书开始
+    </div>
+    <div class="mallSearch-input">
+        <!--搜索框-->
+        <div class="f1 inputSearchDiv">
+            <input placeholder="书名、作者、ISBN" class="inputSearch" name="keyword">
+        </div>
+        <div class="searchSection">
+            <!-- 搜索 -->
+            <div class="f1 searchLogo">
+                <img src="../img/fore/search_logo1.jpg" width="30px" height="30px" onclick="getSearchResult()">
+            </div>
+            <!--购物车-->
+            <div class="shoppingCart f1">
+                <a href="./cart.html">
+                    <img src="../img/fore/shopping.jpg" width="40px" height="40px">
+                </a>
+            </div>
+            <!--个人中心-->
+            <div class="people f1">
+                <a href="./personalCenter.html">
+                    <img src="../img/fore/people.png" width="30px" height="30px">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--------------------------------------->
+
+<div class="block_home_slider">
+    <div class="banner_y center" style="position: relative; border: 3px solid red">
+        <div class="nav" id="categoryList">
+
+        </div>
+    </div>
+</div>
+
+<div class="news">
+    <div class="wrapper">
+        <h2 style="margin-top: 10px">新书速递</h2>
+        <div style="border: 1px solid gainsboro"></div>
+        <ul class="proList wrapper clearfix" id="newBooksList">
+            <!-- New books data will be populated here dynamically -->
+        </ul>
+    </div>
+</div>
+
+<div class="news">
+    <div class="wrapper">
+        <h2 style="margin-top: 10px">热门书籍</h2>
+        <div style="border: 1px solid gainsboro"></div>
+        <ul class="proList wrapper clearfix" id="popularBooksList">
+            <!-- Popular books data will be populated here dynamically -->
+        </ul>
+    </div>
+</div>
+
+<div class="news">
+    <div class="wrapper guessTitle" style="display: none">
+        <h2 style="margin-top: 10px; color: black">猜你喜欢</h2>
+        <div style="border: 1px solid gainsboro;"></div>
+        <ul class="proList wrapper clearfix" id="guessYouLikeList">
+            <!-- Guess you like books data will be populated here dynamically -->
+        </ul>
+    </div>
+</div>
+<!------------------------------ad------------------------------>
+<a href="#" class="ad"><img src="../img/ib1.jpg"/></a>
+
+<!--右边小状态栏-->
+<div class="gotop">
+    <a href="./cart.html">
+        <dl class="goCart">
+            <dt><img src="../img/gt1.png"/></dt>
+            <dd>去购<br/>物车</dd>
+            <span id="cartTotalItemNumber">0</span>
+        </dl>
+    </a>
+    <a href="#" class="dh">
+        <dl>
+            <dt><img src="../img/gt2.png"/></dt>
+            <dd>联系<br/>客服</dd>
+        </dl>
+    </a>
+    <a href="./personalCenter.html">
+        <dl>
+            <dt><img src="../img/gt3.png"/></dt>
+            <dd>个人<br/>中心</dd>
+        </dl>
+    </a>
+    <a href="#" class="toptop" style="display: none;">
+        <dl>
+            <dt><img src="../img/gt4.png"/></dt>
+            <dd>返回<br/>顶部</dd>
+        </dl>
+    </a>
+    <p>400-800-8200</p>
+</div>
+
+<!--footer-->
+<div class="footer">
+    <div class="top">
+        <div class="wrapper">
+            <div class="clearfix">
+                <a href="#2" class="fl"><img src="../img/foot1.png"/></a>
+                <span class="fl">7天无理由退货</span>
+            </div>
+            <div class="clearfix">
+                <a href="#2" class="fl"><img src="../img/foot2.png"/></a>
+                <span class="fl">15天免费换货</span>
+            </div>
+            <div class="clearfix">
+                <a href="#2" class="fl"><img src="../img/foot3.png"/></a>
+                <span class="fl">满599包邮</span>
+            </div>
+            <div class="clearfix">
+                <a href="#2" class="fl"><img src="../img/foot4.png"/></a>
+                <span class="fl">手机特色服务</span>
+            </div>
+        </div>
+    </div>
+    <p class="dibu">WELCOME TO<br/>
+        BOOKSTORM</p>
+</div>
+</body>
+
+<script src="../js/public.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/nav.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/jquery.flexslider-min.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    // 获取用户信息
+    $(function () {
+        $.getJSON('/mineMessage',
+            function (result) {
+                let redirect = result.data;
+                if (redirect === undefined || redirect === null) {
+                    $('#userNoLogin').show();
+                } else {
+                    // 显示用户登录时的 <div> 并设置用户信息
+                    let user = result.data;
+                    $('#userLoggedInDiv').show();
+                    $('.userImage').attr('src', user.image);
+                    $('#userName').text(user.name);
+                }
+            }
+        );
+    })
+
+    $(function () {
+        $('input[name="keyword"]').on('keypress', function (event) {
+            if (event.which === 13) {
+                // 13 是回车键的键码
+                getSearchResult();
+            }
+        });
+    })
+
+    // 搜索框
+    function getSearchResult() {
+        let keyword = $('input[name="keyword"]').val();
+        keyword = keyword.trim();
+        if (keyword.length <= 0) {
+            $('input[name="keyword"]').val('');
+            alert("请输入查询关键词! (书名、作者、ISBN)");
+        } else {
+            location.assign(`./searchResult.html?keyword=${keyword}`);
+        }
+    }
+</script>
+<script type="text/javascript">
+    $(function () {
+        // 使用 $.getJSON 获取所有数据
+        $.getJSON('/home', function (result) {
+            let data = result.data;
+            // 从数据中获取需要的信息
+            // 新书速递数据
+            let newBooks = data.newBooks;
+            // 热门书籍数据
+            let popularBooks = data.popularBooks;
+            // 猜你喜欢数据
+            let guessYouLikeBooks = data.guessYouLikeBooks;
+            // 一级分类数据
+            let categories = data.categories;
+            // 二级分类数据
+            let categoriesClasses = data.categoriesClasses;
+            // 填充新书速递
+            let newBooksList = $('#newBooksList');
+            $.each(newBooks, function (index, book) {
+                let li = $('<li></li>');
+                li.html(`
+                    <a href="./bookDetail.html?bookId=${book.id}">
+                        <dl>
+                            <dt><img src="${book.image}" referrerpolicy="no-referrer"></dt>
+                            <dd>${book.bookName}</dd>
+                            <dd>￥${book.price}</dd>
+                        </dl>
+                    </a>
+                `);
+                newBooksList.append(li);
+            });
+
+            // 填充热门书籍
+            let popularBooksList = $('#popularBooksList');
+            $.each(popularBooks, function (index, book) {
+                let li = $('<li></li>');
+                li.html(`
+                    <a href="./bookDetail.html?bookId=${book.id}">
+                        <dl>
+                            <dt><img src="${book.image}" referrerpolicy="no-referrer"></dt>
+                            <dd>${book.bookName}</dd>
+                            <dd>￥${book.price}</dd>
+                        </dl>
+                    </a>
+                `);
+                popularBooksList.append(li);
+            });
+
+            // 填充猜你喜欢
+            let guessYouLikeList = $('#guessYouLikeList');
+            if (guessYouLikeBooks !== null && guessYouLikeBooks.length !== 0) {
+                $('.guessTitle').show();
+                $.each(guessYouLikeBooks, function (index, book) {
+                    let li = $('<li></li>');
+                    li.html(`
+                    <a href="./bookDetail.html?bookId=${book.id}">
+                        <dl>
+                            <dt><img src="${book.image}" referrerpolicy="no-referrer"></dt>
+                            <dd>${book.bookName}</dd>
+                            <dd>￥${book.price}</dd>
+                        </dl>
+                    </a>
+                `);
+                    guessYouLikeList.append(li);
+                });
+            }
+
+            // 填充分类
+            let categoryList = $('#categoryList');
+            let ul = $('<ul></ul>');
+
+            $.each(categories, function (index, c) {
+                let li = $('<li></li>');
+                li.html(`<a href="#" style="text-decoration: none;">${c.name}</a>`);
+
+                let div = $('<div></div>').addClass('pop').css('width', '300px');
+                let leftDiv = $('<div></div>').addClass('left fl').css('width', '250px');
+
+                // 填充二级分类
+                let curCategoryClasses = categoriesClasses[index];
+                $.each(curCategoryClasses, function (index, categoryClass) {
+                    leftDiv.append(`
+                        <div>
+                            <div class="xuangou_left fl">
+                                <div class="img fl" style="width: 15px"></div>
+                                <span class="fl">${categoryClass.categoryClassname}</span>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="xuangou_right fr">
+                                <a style="text-decoration: none;" href="./categoryDetail.html?categoryClassId=${categoryClass.id}&queryWay=salesDescending&offset=0" style="font-size: 15px">查看</a>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    `);
+                })
+                div.append(leftDiv);
+                div.append('<div class="clear"></div>');
+                li.append(div);
+                ul.append(li);
+            });
+            categoryList.append(ul);
+        });
+    })
+</script>
+</html>

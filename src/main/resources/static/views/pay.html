@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>支付订单</title>
+    <!-- 引入JQ和Bootstrap -->
+    <script src="../js/jquery/2.0.0/jquery.min.js"></script>
+    <script src="../js/bootstrap/3.3.6/bootstrap.min.js"></script>
+    <link href="../css/fore/style.css" rel="stylesheet">
+    <link href="../assets/css/bootstrap.css" rel="stylesheet">
+
+
+</head>
+
+<style>
+    div.aliPayPageDiv {
+        text-align: center;
+        padding-bottom: 40px;
+        max-width: 1013px;
+        margin: 10px auto;
+    }
+
+    div.aliPayPageLogo {
+        margin: 20px;
+    }
+
+    span.confirmMoneyText {
+        color: #4D4D4D;
+    }
+
+    span.confirmMoney {
+        display: block;
+        color: #FF6600;
+        font-weight: bold;
+        font-size: 20px;
+        margin: 10px;
+    }
+
+    button.confirmPay {
+        background-color: #00AAEE;
+        border: 1px solid #00AAEE;
+        text-align: center;
+        line-height: 31px;
+        font-size: 14px;
+        font-weight: 700;
+        color: white;
+        width: 107px;
+        margin-top: 20px;
+    }
+
+    img.aliPayImg {
+        width: 300px;
+    }
+</style>
+
+<body>
+
+<div class="aliPayPageDiv">
+    <div class="aliPayPageLogo">
+        <div style="clear:both"></div>
+    </div>
+
+    <div>
+        <span class="confirmMoneyText">扫一扫付款（元）</span>
+        <!-- 支付金额 -->
+        <span class="confirmMoney"></span>
+
+    </div>
+    <div>
+        <img class="aliPayImg" src="../img/fore/zhifu.jpg">
+    </div>
+
+    <div>
+        <a class="payedNav">
+            <button class="confirmPay">确认支付</button>
+        </a>
+    </div>
+</div>
+</body>
+<script>
+    $(function () {
+        let url = new URLSearchParams(window.location.search);
+        let orderId = url.get('orderId');
+        let total = url.get('total');
+        $('.confirmMoney').append(total);
+        $('.payedNav').attr('href', `./payed.html?orderId=${orderId}&total=${total}`);
+    })
+
+</script>
+</html>

@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>发表评论</title>
+    <link rel="stylesheet" type="text/css" href="../css/public.css"/>
+    <!-- 引入JQ和Bootstrap -->
+    <script src="../js/jquery/2.0.0/jquery.min.js"></script>
+    <script src="../js/bootstrap/3.3.6/bootstrap.min.js"></script>
+    <link href="../css/fore/style.css" rel="stylesheet">
+    <link href="../assets/css/bootstrap.css" rel="stylesheet">
+
+    >
+</head>
+<style>
+    div.reviewDiv {
+        max-width: 1013px;
+        margin: 10px auto;
+        margin-bottom: 50px;
+    }
+
+    div.reviewProductInfoImg {
+        border: 1px solid #E7E7E7;
+        text-align: center;
+        float: left;
+    }
+
+    div.reviewProductInfoRightDiv {
+        overflow: hidden;
+        border-top: 1px solid #E7E7E7;
+        padding: 30px 20px;
+    }
+
+    div.reviewProductInfoRightText {
+        color: black;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    table.reviewProductInfoTable {
+        margin: 20px 10px;
+        font-size: 12px;
+    }
+
+    table.reviewProductInfoTable td {
+        padding-bottom: 5px;
+        color: #999999;
+    }
+
+    span.reviewProductInfoTablePrice {
+        color: #FF0036;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    span.reviewProductInfoTableSellNumber {
+        color: #FF0036;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    div.reviewProductInfoRightBelowDiv {
+        border: 1px solid #F6F5F3;
+        background-color: #FDFBFA;
+        height: 166px;
+        padding: 16px 0px 16px 81px;
+    }
+
+    img {
+        vertical-align: baseline;
+    }
+
+    .imgSpanDiv {
+        display: flex;
+        justify-content: left;
+    }
+
+    span.reviewProductInfoRightBelowImg {
+        border: 1px solid #E1E1E1;
+    }
+
+    span.reviewProductInfoRightBelowText {
+        border: 1px solid #EFEFEF;
+        color: #666666;
+        font-size: 12px;
+    }
+
+    div.reviewStasticsDiv {
+        margin-top: 20px;
+    }
+
+    div.reviewStasticsLeft {
+        width: 180px;
+        float: left;
+    }
+
+    div.reviewStasticsLeftTop {
+        background-color: #FF0036;
+        height: 6px;
+    }
+
+    div.reviewStasticsLeftContent {
+        line-height: 29px;
+        border-left: 1px solid #D5D4D4;
+        border-right: 1px solid #D5D4D4;
+        background-color: #F6F5F1;
+        text-align: center;
+        font-size: 14px;
+        color: #363535;
+        font-weight: bold;
+    }
+
+    div.reviewStasticsLeftFoot {
+        height: 6px;
+        border-left: 1px solid #D5D4D4;
+        border-bottom: 1px solid #D5D4D4;
+        background-color: #F6F5F1;
+    }
+
+    span.reviewStasticsNumber {
+        color: #284CA5;
+    }
+
+    div.reviewStasticsRight {
+        overflow: hidden;
+    }
+
+    div.reviewStasticsRightEmpty {
+        height: 35px;
+    }
+
+    div.reviewStasticsFoot {
+        background-color: #F6F5F1;
+        border: 1px solid #D5D4D4;
+        border-left-width: 0px;
+        height: 6px;
+    }
+
+    div.makeReviewDiv {
+        border: 1px solid #D1CCC8;
+        margin: 20px 0px;
+        background-color: #EFEFEF;
+    }
+
+    div.makeReviewText {
+        font-size: 16px;
+        color: #333333;
+        font-weight: bold;
+        margin: 20px 40px;
+    }
+
+    table.makeReviewTable {
+        margin: 20px 40px;
+        font-size: 12px;
+    }
+
+    table.makeReviewTable td {
+        border: 1px solid #E7E7E7;
+        padding: 10px;
+        background-color: white;
+    }
+
+    table.makeReviewTable textarea {
+        border-width: 0px;
+        resize: none;
+        width: 420px;
+        height: 120px;
+    }
+
+    td.makeReviewTableFirstTD {
+        background-color: #F6F6F6;
+        font-size: 18px;
+    }
+
+    div.makeReviewButtonDiv {
+        background-color: white;
+        text-align: center;
+        padding: 15px;
+    }
+
+    div.makeReviewButtonDiv button {
+        width: 72px;
+        height: 26px;
+        border-radius: 2px;
+        background-color: #FF0036;
+        color: white;
+        border-width: 0px;
+        font-weight: bold;
+    }
+
+    div.reviewDivlistReviewsEach div {
+        display: inline-block;
+    }
+
+    div.reviewDate {
+        color: #CCCCDD;
+        width: auto;
+        margin-top: 10px;
+        margin-left: 50px;
+        font-size: 16px;
+    }
+
+    div.reviewContent {
+        color: #333333;
+        width: 80%;
+        font-size: 14px;
+        margin: 5px 50px 5px 55px;
+    }
+
+    div.reviewUserInfo {
+        color: #333333;
+    }
+
+    div.reviewDivlistReviewsEach {
+        border-bottom: 1px solid #ECECEC;
+        margin: 10px;
+        padding: 5px;
+    }
+
+    span.reviewUserInfoAnonymous {
+        color: #CCCCDD;
+        margin-left: 5px;
+    }
+
+    .contentDiv {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: pre-wrap;
+        font-size: 16px;
+    }
+
+    .star-ratings {
+        list-style: none; /* 移除默认的列表样式 */
+        padding: 0;
+        margin: 0;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .star-ratings li {
+        display: inline-block; /* 将星星元素水平排列 */
+        font-size: 20px; /* 控制星星的大小 */
+        color: red; /* 星星的颜色 */
+        cursor: pointer;
+
+    }
+
+    .star li {
+        list-style: none;
+        float: left;
+        font-size: 20px;
+        margin: 1px;
+        color: #f00;
+        cursor: pointer;
+    }
+
+</style>
+<style>
+    /*导航栏和搜索框样式*/
+    .workArea {
+        width: 100%; /* 宽度为100%，充满整个屏幕宽度 */
+        height: 32px;
+        color: white;
+    }
+
+    #site-nav {
+        width: 100%;
+        position: fixed;
+        top: 0;
+        z-index: 99;
+        background-color: #000000;
+        height: 36px;
+        border-bottom: 1px solid #2b542c;
+        opacity: 0.6;
+    }
+
+    #site-nav span {
+        padding-left: 20px;
+        line-height: 32px;
+    }
+
+    .logoandsearchbox {
+        margin: -10px 0 0 0;
+        height: 120px;
+        width: 100%;
+        border-bottom: solid black;
+    }
+
+    .shouye {
+        height: 20px;
+        background-color: #2b542c;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-bottom: solid;
+    }
+
+    .f1 {
+        float: left;
+    }
+
+    .img1 {
+        border: 0;
+        width: 150px;
+        height: 100px;
+
+    }
+
+    .margin_wenzi {
+        margin-left: 0;
+        font-family: "Times New Roman", Georgia, Serif;
+        margin-top: 63px;
+    }
+
+    .searchLogo {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .shoppingCart {
+        width: 40px;
+        height: 40px;
+        margin-left: 60px;
+        cursor: pointer;
+    }
+
+    .people {
+        width: 40px;
+        height: 40px;
+        margin-left: 20px;
+        line-height: 30px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .searchSection {
+        width: 275px;
+        height: 40px;
+    }
+
+    .inputSearchDiv {
+        background-color: #FFC107;
+    }
+    #userLoggedInDiv{
+        display: flex;
+    }
+</style>
+<body>
+<!-- 导航栏和搜索框 -->
+<nav id="site-nav" role="navigation">
+    <div class="workArea">
+        <div id="userNoLogin" style="display: none">
+            <span>欢迎来BOOKSTORM</span>
+            <span><a href="./index.html" style="color: white">首页</a></span>
+            <span><a href="./login.html" style="color: white">请登录</a></span>
+            <span><a href="./register.html" style="color: white">注册</a></span>
+        </div>
+        <!-- 用户登录时包含的 <div> -->
+        <div id="userLoggedInDiv" style="display: none">
+            <span>
+                <img class="userImage" src="" referrerpolicy="no-referrer"
+                     style="width: 32px; height: 32px; border-radius: 16px">
+            </span>
+            <span>Hi，<span id="userName"></span></span>
+            <span><a href="/logout" style="color: white">退出</a></span>
+            <span><a href="./index.html" style="color: white">首页</a></span>
+        </div>
+    </div>
+</nav>
+
+<div class="logoandsearchbox max-width margin-auto clearfix">
+    <div class="f1">
+        <img class="img1" src="../img/fore/tmall-logo-new.png">
+    </div>
+    <div class="f1 margin_wenzi">
+        美好的一天从读书开始
+    </div>
+    <div class="mallSearch-input">
+        <!--搜索框-->
+        <div class="f1 inputSearchDiv">
+            <input placeholder="书名、作者、ISBN" class="inputSearch" name="keyword">
+        </div>
+        <div class="searchSection">
+            <!-- 搜索 -->
+            <div class="f1 searchLogo">
+                <img src="../img/fore/search_logo1.jpg" width="30px" height="30px" onclick="getSearchResult()">
+            </div>
+            <!--购物车-->
+            <div class="shoppingCart f1">
+                <a href="./cart.html">
+                    <img src="../img/fore/shopping.jpg" width="40px" height="40px">
+                </a>
+            </div>
+            <!--个人中心-->
+            <div class="people f1">
+                <a href="./personalCenter.html">
+                    <img src="../img/fore/people.png" width="30px" height="30px">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--------------------------------------->
+
+
+<div class="reviewDiv">
+    <!-- 书籍信息 -->
+    <div class="reviewProductInfoDiv">
+    </div>
+
+    <div class="reviewStasticsDiv">
+        <div class="reviewStasticsLeft">
+            <div class="reviewStasticsLeftTop"></div>
+            <!-- 评论数量 -->
+            <div class="reviewStasticsLeftContent">我的评价
+                <span class="reviewStasticsNumber">
+                </span>
+            </div>
+            <div class="reviewStasticsLeftFoot"></div>
+        </div>
+        <div class="reviewStasticsRight">
+            <div class="reviewStasticsRightEmpty"></div>
+            <div class="reviewStasticsFoot"></div>
+        </div>
+    </div>
+
+    <!-- 我的评价 -->
+    <div class="makeReviewDiv">
+        <div>
+            <div class="makeReviewText">其他买家，需要你的建议哦！</div>
+            <table class="makeReviewTable">
+                <tr>
+                    <td class="makeReviewTableFirstTD">评价商品</td>
+                    <td>
+                        <div style="color: black; font-size: 18px;">你的评分</div>
+                        <ul class="star-ratings" id="starScore">
+                            <li onclick="lightStar(1, this)">★</li>
+                            <li onclick="lightStar(2, this)">★</li>
+                            <li onclick="lightStar(3, this)">★</li>
+                            <li onclick="lightStar(4, this)">★</li>
+                            <li onclick="lightStar(5, this)">★</li>
+                        </ul>
+                    </td>
+                    <td><textarea name="content" id="textArea"
+                                  placeholder="请输入评价：" class="contentDiv"></textarea></td>
+                </tr>
+            </table>
+
+            <div class="makeReviewButtonDiv">
+                <input type="hidden" id="score" name="score" value="5">
+                <button type="submit" onclick="submitReview()">提交评价</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 展示所有评价 -->
+    <div class="reviewDivlistReviews" style="display: none">
+    </div>
+</div>
+<!--footer-->
+<div class="footer">
+    <div class="top">
+        <div class="wrapper">
+            <div class="clearfix">
+                <a href="#2" class="fl"><img src="../img/foot1.png"/></a>
+                <span class="fl">7天无理由退货</span>
+            </div>
+            <div class="clearfix">
+                <a href="#2" class="fl"><img src="../img/foot2.png"/></a>
+                <span class="fl">15天免费换货</span>
+            </div>
+            <div class="clearfix">
+                <a href="#2" class="fl"><img src="../img/foot3.png"/></a>
+                <span class="fl">满599包邮</span>
+            </div>
+            <div class="clearfix">
+                <a href="#2" class="fl"><img src="../img/foot4.png"/></a>
+                <span class="fl">手机特色服务</span>
+            </div>
+        </div>
+    </div>
+    <p class="dibu">WELCOME TO<br/>
+        BOOKSTORM</p>
+</div>
+</body>
+<script>
+    // 获取用户信息
+    $(function () {
+        $.getJSON('/mineMessage',
+            function (result) {
+                let redirect = result.data;
+                if (redirect === undefined || redirect === null) {
+                    $('#userNoLogin').show();
+                } else {
+                    // 显示用户登录时的 <div> 并设置用户信息
+                    let user = result.data;
+                    $('#userLoggedInDiv').show();
+                    $('.userImage').attr('src', user.image);
+                    $('#userName').text(user.name);
+                }
+            }
+        );
+    })
+
+    $(function () {
+        $('input[name="keyword"]').on('keypress', function (event) {
+            if (event.which === 13) {
+                // 13 是回车键的键码
+                getSearchResult();
+            }
+        });
+    })
+
+    // 搜索框
+    function getSearchResult() {
+        let keyword = $('input[name="keyword"]').val();
+        keyword = keyword.trim();
+        if (keyword.length <= 0) {
+            $('input[name="keyword"]').val('');
+            alert("请输入查询关键词! (书名、作者、ISBN)");
+        } else {
+            location.assign(`./searchResult.html?keyword=${keyword}`);
+        }
+    }
+</script>
+<script type="text/javascript">
+    // 点亮评论星星
+    function lightStar(score, clickLi) {
+        let starList = document.querySelectorAll("#starScore li");
+        // 如果被点击的星星已经标红了, 就取消所有标红的星星
+        if (clickLi.innerHTML === "★") {
+            for (let curLi of starList) {
+                curLi.innerHTML = "☆";
+            }
+        } else {
+            for (let curLi of starList) {
+                if (score-- > 0) {
+                    curLi.innerHTML = "★";
+                } else {
+                    curLi.innerHTML = "☆";
+                }
+            }
+        }
+    }
+
+    // 提交评论前. 将星星数量转化为分数
+    function setScoreBeforeSubmit() {
+        let starUl = document.querySelector('.star-ratings').childNodes;
+        let starCount = 0;
+        for (let child of starUl) {
+            if (child.innerHTML === "★") {
+                starCount++;
+            }
+        }
+        let scoreInput = document.getElementById('score');
+        scoreInput.value = starCount;
+    }
+    let url = new URLSearchParams(window.location.search);
+    let bookId = url.get('bookId');
+    let orderId = url.get('orderId');
+    function submitReview(){
+        setScoreBeforeSubmit();
+        $.post('/doReview',
+            {
+                orderId: orderId,
+                bookId: bookId,
+                score: $('#score').val(),
+                content: $('#textArea').val()
+            },
+            function (result) {
+                if (result.code === 0){
+                    let comments = result.data;
+                    // 展示所有评论
+                    showCommentsDetail(comments);
+                    $('.reviewDivlistReviews').show();
+                }else{
+                    alert(result.message);
+                }
+            }
+        )
+    }
+    function showCommentsDetail(comments) {
+        // 我的评价替换成累计评价
+        $(".reviewStasticsLeftContent").contents().filter(function() {
+            return this.nodeType === 3 && this.textContent.trim();
+        }).each(function() {
+            this.textContent = "累计评价 ";
+        });
+        $('.reviewStasticsNumber').text(comments.length);
+        $('.makeReviewDiv').hide();
+        $.each(comments, function (index, comment) {
+            // 制作星星
+            let starCount = comment.commentScore;
+            let starHtml = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= starCount) {
+                    starHtml += "<li>★</li>\n";
+                } else {
+                    starHtml += "<li>☆</li>\n";
+                }
+            }
+            let allReviews = $('.reviewDivlistReviews');
+            allReviews.append(`
+                    <div class="reviewDivlistReviewsEach">
+                        <div>
+                            <img src="${comment.user.image}" referrerpolicy="no-referrer"
+                            style="height: 50px; width: 50px; border-radius: 25px">
+                        </div>
+                        <div style="font-size: 18px; font-weight: bold; margin-right: 10px">${comment.user.name}</div>
+                            <div class="reviewContent">
+                                ${comment.content}
+                            </div>
+                        <div style="width: 200px">
+                            <ul class="star">
+                                <li style="color: black "><b>评分：</b></li>
+                                ${starHtml}
+                            </ul>
+                        </div>
+                        <div class="reviewDate">${comment.publicDate}</div>
+                    </div>
+            `);
+        });
+    }
+
+    $(function () {
+        $.getJSON(`/review?bookId=${bookId}&orderId=${orderId}`,
+            function (result) {
+                if (result.code === 0) {
+                    let book = result.data.book;
+                    let order = result.data.order;
+                    showBookDetails(book, order.createDate);
+                } else {
+                    alert(result.message);
+                }
+            }
+        )
+    })
+
+    function showBookDetails(book, orderCreateDate) {
+        let bookInfoContainer = $('.reviewProductInfoDiv');
+        bookInfoContainer.html(`
+            <div class="reviewProductInfoImg">
+                <img width="200px" src="${book.image}" referrerpolicy="no-referrer">
+            </div>
+
+            <div class="reviewProductInfoRightDiv">
+                <div class="reviewProductInfoRightText">
+                    ${book.bookName}
+                </div>
+                <table class="reviewProductInfoTable">
+                    <tr>
+                        <td width="75px">价格:</td>
+                        <td><span class="reviewProductInfoTablePrice">￥${book.price}</span> 元</td>
+                    </tr>
+                    <tr>
+                        <td>作者</td>
+                        <td>${book.author}</td>
+                    </tr>
+                    <tr>
+                        <td>出版社</td>
+                        <td>${book.publicSource}</td>
+                    </tr>
+                    <tr>
+                        <td>出版日期</td>
+                        <td>${book.date}</td>
+                    </tr>
+                    <tr>
+                        <td>配送</td>
+                        <td>吴奇隆</td>
+                    </tr>
+                     <tr>
+                        <td>快递</td>
+                        <td>0.00</td>
+                    </tr>
+                    <tr>
+                        <td>月销量</td>
+                        <td><span class="reviewProductInfoTableSellNumber">${book.saleNumber}</span> 件</td>
+                    </tr>
+                </table>
+
+                <div class="imgSpanDiv">
+                    <span class="reviewProductInfoRightBelowImg"><img src="../img/fore/reviewLight.png"></span>
+                    <span class="reviewProductInfoRightBelowText">现在查看的是 您所购买商品的信息于${orderCreateDate}下单购买了此商品 </span>
+                </div>
+            </div>
+            <div style="clear:both"></div>
+        `);
+    }
+</script>
+</html>

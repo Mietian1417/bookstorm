@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>书籍详情</title>
+    <link rel="stylesheet" type="text/css" href="../css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/proList.css"/>
+    <!-- 引入JQ和Bootstrap -->
+    <script src="../js/jquery/2.0.0/jquery.min.js"></script>
+    <script src="../js/bootstrap/3.3.6/bootstrap.min.js"></script>
+    <link href="../css/fore/style.css" rel="stylesheet">
+    <link href="../assets/css/bootstrap.css" rel="stylesheet">
+
+</head>
+<style>
+    .book {
+        width: 70%;
+        height: 250px;
+        border: groove;
+
+        margin-left: 15%;
+        margin-top: 20px;
+        z-index: 1;
+    }
+
+    .book_date {
+        width: 70%;
+        height: 250px;
+        border: groove;
+
+        margin-left: 15%;
+        margin-top: 20px;
+        z-index: 2;
+    }
+
+    .book_info {
+        width: 70%;
+        height: auto;
+        border: groove;
+
+        margin-left: 15%;
+        margin-top: 20px;
+        overflow: hidden;
+    }
+
+    .book_info:hover {
+        overflow: visible;
+    }
+
+    .book_like {
+        width: 70%;
+        height: 250px;
+        border: groove;
+
+        margin-left: 15%;
+        margin-top: 20px;
+    }
+
+    .book_comment {
+        width: 70%;
+        height: 50px;
+        line-height: 30px;;
+        margin-left: 15%;
+        margin-top: 20px;
+        border-bottom: groove grey;
+    }
+
+    .book_c {
+        width: 70%;
+        height: 130px;
+        margin-left: 15%;
+        margin-top: 20px;
+        border: groove;
+    }
+
+    .book_title {
+        height: 30px;
+        background-color: gainsboro;
+        border: groove;
+        line-height: 30px;;
+    }
+
+    .cn {
+        float: left;
+    }
+
+    .book.book_image {
+
+        margin-top: 20px;
+        weigh: 60px;
+        height: 210px;
+
+        margin-right: 10px;
+
+    }
+
+    .book_image p {
+        margin-top: 11px;
+        line-height: 1.5;
+        font-size: 12px;
+    }
+
+    /*五角星评分*/
+    .cleanfloat::after {
+        display: block;
+        clear: both;
+        content: "";
+        visibility: hidden;
+        height: 0;
+    }
+
+
+    /*清浮动*/
+    ul li {
+        list-style: none;
+        float: left;
+        font-size: 20px;
+        margin: 1px;
+        color: #f00;
+        cursor: pointer;
+    }
+
+    /*五角星样式*/
+    /* .hs,.cs{color:#f00;}!*五角星点击后样式*!*/
+    .wu {
+        list-style: none;
+        float: left;
+        font-size: 7px;
+        color: #f00;
+        cursor: pointer;
+    }
+
+    .buy {
+        color: #b8494a;
+
+        /*padding-left: 27px;
+        padding-right: 27px;*/
+    }
+
+    .button {
+        /* margin-top:40px;*/
+
+        display: inline-block;
+        line-height: 2;
+        width: 170px;
+        white-space: nowrap;
+        cursor: pointer;
+        background: #fff;
+        border: 1px solid #dcdfe6;
+        color: #606266;
+        -webkit-appearance: none;
+        text-align: center;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        outline: 0;
+        margin: 0;
+        -webkit-transition: .1s;
+        transition: .1s;
+        font-weight: 500;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        padding: 12px 20px;
+        font-size: 20px;
+        border-radius: 4px;
+        /*border:groove;*/
+    }
+
+    .score {
+        float: left;
+        width: 520px;
+        height: 200px;
+        margin: 5px 0 10px 50px;
+    }
+
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .overppp {
+        margin-top: 10px;
+        font-family: 华文楷体;
+        font-size: 15px;
+    }
+
+    .bookName {
+        width: 170px;
+        font-size: 16px;
+        margin: 5px 0px 40px 0px;
+        text-align: center;
+        transition: 0.2s;
+        color: black;
+    }
+
+    .bookName:hover {
+        color: red;
+        text-decoration: none;
+    }
+
+    .scoreDiv {
+        margin: 10px 0 0 20px;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+
+    .addCartSuccess{
+        color: red;
+        font-size: 18px;
+        display: none;
+    }
+    .bookNameDd{
+        font-size: 16px;
+        color: #777777;
+        transition: 0.3s;
+    }
+    .bookNameDd:hover {
+        color: red;
+    }
+    .userMaybeLike{
+        margin-bottom: 20px;
+    }
+
+</style>
+<style>
+    /*导航栏和搜索框样式*/
+    .workArea {
+        width: 100%; /* 宽度为100%，充满整个屏幕宽度 */
+        height: 32px;
+        color: white;
+    }
+
+    #site-nav {
+        width: 100%;
+        position: fixed;
+        top: 0;
+        z-index: 99;
+        background-color: #000000;
+        height: 36px;
+        border-bottom: 1px solid #2b542c;
+        opacity: 0.6;
+    }
+
+    #site-nav span {
+        padding-left: 20px;
+        line-height: 32px;
+    }
+
+    .logoandsearchbox {
+        margin: 10px 0 0 0;
+        height: 120px;
+        width: 100%;
+        border-bottom: solid black;
+    }
+
+    .shouye {
+        height: 20px;
+        background-color: #2b542c;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-bottom: solid;
+    }
+
+    .f1 {
+        float: left;
+    }
+
+    .img1 {
+        border: 0;
+        width: 150px;
+        height: 100px;
+
+    }
+
+    .margin_wenzi {
+        margin-left: 0;
+        font-family: "Times New Roman", Georgia, Serif;
+        margin-top: 63px;
+    }
+
+    .searchLogo {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .shoppingCart {
+        width: 40px;
+        height: 40px;
+        margin-left: 60px;
+        cursor: pointer;
+    }
+
+    .people {
+        width: 40px;
+        height: 40px;
+        margin-left: 20px;
+        line-height: 30px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .searchSection {
+        width: 275px;
+        height: 40px;
+    }
+
+    .inputSearchDiv {
+        background-color: #FFC107;
+    }
+</style>
+
+<body>
+<!-- 导航栏和搜索框 -->
+<nav id="site-nav" role="navigation">
+    <div class="workArea">
+        <div id="userNoLogin" style="display: none">
+            <span>欢迎来BOOKSTORM</span>
+            <span><a href="./index.html" style="color: white">首页</a></span>
+            <span><a href="./login.html" style="color: white">请登录</a></span>
+            <span><a href="./register.html" style="color: white">注册</a></span>
+        </div>
+
+        <!-- 用户登录时包含的 <div> -->
+        <div id="userLoggedInDiv" style="display: none">
+            <span>
+                <img class="userImage" src="" referrerpolicy="no-referrer"
+                     style="width: 32px; height: 32px; border-radius: 16px">
+            </span>
+            <span>Hi，<span id="userName"></span></span>
+            <span><a href="/logout" style="color: white">退出</a></span>
+            <span><a href="./index.html" style="color: white">首页</a></span>
+        </div>
+    </div>
+</nav>
+
+<div class="logoandsearchbox max-width margin-auto clearfix">
+    <div class="f1">
+        <img class="img1" src="../img/fore/tmall-logo-new.png">
+    </div>
+    <div class="f1 margin_wenzi">
+        美好的一天从读书开始
+    </div>
+    <div class="mallSearch-input">
+        <!--搜索框-->
+        <div class="f1 inputSearchDiv">
+            <input placeholder="书名、作者、ISBN" class="inputSearch" name="keyword">
+        </div>
+        <div class="searchSection">
+            <!-- 搜索 -->
+            <div class="f1 searchLogo">
+                <img src="../img/fore/search_logo1.jpg" width="30px" height="30px" onclick="getSearchResult()">
+            </div>
+            <!--购物车-->
+            <div class="shoppingCart f1">
+                <a href="./cart.html">
+                    <img src="../img/fore/shopping.jpg" width="40px" height="40px">
+                </a>
+            </div>
+            <!--个人中心-->
+            <div class="people f1">
+                <a href="./personalCenter.html">
+                    <img src="../img/fore/people.png" width="30px" height="30px">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--------------------------------------->
+
+
+<div class="book">
+    <div class="book_title bookDetail">图书详情</div>
+    <!-- 书籍详情 -->
+
+    <!-- 书籍评分 -->
+    <div class="score">
+        <div class="scoreDiv">
+            <ul class="cleanfloat">
+                <li style="color: black "><b>评分：</b></li>
+                <li>&#9733;</li>
+                <li>&#9733;</li>
+                <li>&#9733;</li>
+                <li>&#9733;</li>
+                <li>&#9733;</li>
+            </ul>
+            <div>
+                <b style="font-size: 20px; margin-left: 15px">库存：</b>
+                <span class="bookStock"
+                      style="font-size: 20px; font-weight: bold;"></span>
+            </div>
+        </div>
+        <table id="tab" style="margin-top: 20px;margin-left: 10px">
+            <tr>
+                <td style="font-family: 华文楷体">
+                    <span style="margin-left: 20px; font-size: 20px; font-weight: bold">单价：</span>
+                    <span class="price" style="font-size: 20px;"></span>
+                    <b style="font-size: 20px;margin: 0 5px 0 20px">数量：</b>
+                    <!-- 减号 -->
+                    <input class="min" name="" type="button" value="-" style="width: 20px"/>
+                    <!-- 商品数量 -->
+                    <input class="text_box" id="number" name="number" type="number" value="1"
+                           style="width: 30px; text-align: center; font-size: 20px;"/>
+                    <!-- 加号 -->
+                    <input class="add" name="" type="button" value="+" style="width: 20px"/>
+                    <span id="total"
+                          style="font-size: 20px; color: red; font-weight: bold; margin-left: 30px">总价：</span>
+                </td>
+            </tr>
+        </table>
+        <div style="margin-top: 20px">
+
+            <input type="submit" class="button" onclick="buyLink()" value="立即购买">
+
+            <button onclick="addCart()" class="button addcart" style="margin-left: 40px;
+             background-color: red;color: white" type="button">加入购物车
+            </button>
+            <span class="addCartSuccess">添加购物车成功! </span>
+        </div>
+    </div>
+
+</div>
+
+<!-- 图表区 -->
+<div class="book_date">
+    <div class="book_title bookScore">评分数据表：</div>
+    <div id="main" style="width: 350px; height:190px;float: left "></div>
+    <div id="main1" style="width: 450px; height:220px;float: right;"></div>
+</div>
+
+
+<!-- 作品信息 -->
+<div class="book_info">
+    <div class="book_title">作品信息</div>
+    <p class="overppp authorInfo"><b>作者简介</b>：</p>
+    <br>
+    <p class="overppp" id="bookInfo"><b>书籍简介</b>：</p>
+</div>
+
+<!-- 评论 -->
+<div class="introMsg wrapper clearfix">
+    <div class="msgL fl" style="width: 1200px; position: relative;">
+        <div style="width: 900px; display: inline-block">
+            <div class="msgTit clearfix">
+                <a class="on" style="font-size: 20px; font-weight: bold">所有评价</a>
+            </div>
+            <!-- 评论详情 -->
+            <div class="eva comments" style="font-family: 华文楷体">
+
+            </div>
+        </div>
+
+        <!-- 相似书籍 推荐 -->
+        <div style="position: absolute; top: 0; right: 0;">
+            <div id="allSimilarBooksDiv" style="width: 250px;">
+                <h4 class="similarBooksSize"
+                    style="width: 170px; padding: 5px 10px; font-size: 17px; text-align: center">
+                    相似书籍
+                </h4>
+                <!-- 书籍 -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 买过该书的人还喜欢 推荐-->
+<div class="userMaybeLike">
+
+</div>
+
+<!--footer-->
+<div class="footer">
+    <div class="top">
+        <div class="wrapper">
+            <div class="clearfix">
+                <a href="#2" class="fl"><img src="../img/foot1.png"/></a>
+                <span class="fl">7天无理由退货</span>
+            </div>
+            <div class="clearfix">
+                <a href="#2" class="fl"><img src="../img/foot2.png"/></a>
+                <span class="fl">15天免费换货</span>
+            </div>
+            <div class="clearfix">
+                <a href="#2" class="fl"><img src="../img/foot3.png"/></a>
+                <span class="fl">满599包邮</span>
+            </div>
+            <div class="clearfix">
+                <a href="#2" class="fl"><img src="../img/foot4.png"/></a>
+                <span class="fl">手机特色服务</span>
+            </div>
+        </div>
+    </div>
+    <p class="dibu">WELCOME TO<br/>
+        BOOKSTORM</p>
+</div>
+</body>
+<script src="../js/jquery.SuperSlide.2.1.1.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/public.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/nav.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/pro.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/cart.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/echarts.min.js"></script>
+<script>
+    // 获取用户信息
+    $(function () {
+        $.getJSON('/mineMessage',
+            function (result) {
+                let redirect = result.data;
+                if (redirect === undefined || redirect === null) {
+                    $('#userNoLogin').show();
+                } else {
+                    // 显示用户登录时的 <div> 并设置用户信息
+                    let user = result.data;
+                    $('#userLoggedInDiv').show();
+                    $('.userImage').attr('src', user.image);
+                    $('#userName').text(user.name);
+                }
+            }
+        );
+    })
+
+    $(function () {
+        $('input[name="keyword"]').on('keypress', function (event) {
+            if (event.which === 13) {
+                // 13 是回车键的键码
+                getSearchResult();
+            }
+        });
+    })
+
+    function getSearchResult() {
+        let keyword = $('input[name="keyword"]').val();
+        keyword = keyword.trim();
+        if (keyword.length <= 0) {
+            $('input[name="keyword"]').val('');
+            alert("请输入查询关键词! (书名、作者、ISBN)");
+        } else {
+            location.assign(`./searchResult.html?keyword=${keyword}`);
+        }
+    }
+</script>
+<script type="text/javascript">
+    $(function () {
+        // 增加商品
+        $(".add").click(function () {
+            let stock = $('.bookStock').text();
+            stock = parseInt(stock);
+            let count = $('input.text_box');
+            if (count.val() === "" || undefined || null) {
+                count.val(1);
+            }
+            count.val(parseInt(count.val()) + 1)
+            if (count.val() >= stock) {
+                count.val(stock);
+            }
+            setTotal();
+        })
+        // 减少商品
+        $(".min").click(function () {
+            let count = $('input.text_box');
+            if (count.val() === "" || undefined || null) {
+                count.val(1);
+            }
+            count.val(parseInt(count.val()) - 1)
+            if (parseInt(count.val()) < 1) {
+                count.val(1);
+            }
+            setTotal();
+        })
+        // 直接输入购买书籍数量
+        $(".text_box").keyup(function () {
+            let count = $('input.text_box');
+            let stock = $('.bookStock').text();
+            stock = parseInt(stock);
+            if (count.val() === undefined || count.val() === null
+                || count.val() === "" || isNaN(count.val())
+                || count.val() < 0) {
+                count.val(1);
+            } else if (parseInt(count.val()) >= stock) {
+                count.val(stock);
+            }
+            setTotal();
+        })
+    })
+
+    function setTotal() {
+        // 数量
+        let count = $('input.text_box').val();
+        // 价格
+        let price = $('span.price').text();
+        if (parseInt(count) === "" || undefined || null || isNaN(count) || isNaN(parseInt(count))) {
+            count = 0;
+        }
+        let total = parseInt(count) * parseFloat(price);
+        $("#total").html('总价：' + total.toFixed(2));
+    }
+
+    let bookId = new URLSearchParams(window.location.search).get('bookId');
+
+    function buyLink() {
+        $.getJSON(`/buyOne?bookId=${bookId}&number=${$("#number").val()}`,
+            function (result) {
+                if (result.code === 0) {
+                    location.assign('./buy.html?orderItemId=' + result.data);
+                } else {
+                    // 未登录, 被拦截器拦截, 并返回了登录页面的路径
+                    if (result.redirect) {
+                        window.location = result.redirect;
+                    } else {
+                        alert(result.message);
+                    }
+                }
+            }
+        )
+    }
+
+    function addCart() {
+        // 显示成功消息并使用淡入效果
+        $(".addCartSuccess").fadeIn();
+
+        // 一秒后使用淡出效果隐藏成功消息
+        setTimeout(function() {
+            $(".addCartSuccess").fadeOut();
+        }, 1000); // 1000毫秒（1秒）
+
+        $.getJSON(`/addCart?bookId=${bookId}&number=${$("#number").val()}`,
+            function (result) {
+                console.log(result);
+                if (result.code !== 0) {
+                    // 未登录, 被拦截器拦截, 并返回了登录页面的路径
+                    if (result.redirect) {
+                        window.location = result.redirect;
+                    } else {
+                        alert(result.message);
+                    }
+                }
+            }
+        )
+    }
+</script>
+
+<script>
+    // 雷达图
+    // 设置雷达图最大边缘长度
+    function makeRadarChart(scores) {
+        const maxLimit = 10;
+        // 评分数据数组
+        let commentScores = scores.map(value => Math.min(value, maxLimit));
+        let myChart = echarts.init(document.getElementById('main1'));
+        let option = {
+            title: {
+                text: '各评分人数占比雷达图',
+                left: 'left'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            radar: [
+                {
+                    indicator: [
+                        {text: '很差', max: maxLimit},
+                        {text: '较差', max: maxLimit},
+                        {text: '一般', max: maxLimit},
+                        {text: '推荐', max: maxLimit},
+                        {text: '力荐', max: maxLimit},
+                    ],
+                    center: ['50%', '55%'],
+                    radius: 80
+                }
+            ],
+            series: [
+                {
+                    type: 'radar',
+                    tooltip: {
+                        trigger: 'item'
+                    },
+                    areaStyle: {},
+                    data: [
+                        {
+                            value: commentScores,
+                            name: '雷达图'
+                        }
+                    ]
+                }
+            ]
+        };
+        myChart.setOption(option);
+    }
+
+    // 饼图
+    function makePieChart(scores) {
+        let myChart = echarts.init(document.getElementById('main'));
+        let data = genData(scores);
+        let option = {
+            title: {
+                text: '各评分占比饼图',
+                subtext: '',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item',
+                // {a} 代表系列名称（通常对应于 legendData 中的项目）。
+                // {b} 代表数据项名称（通常对应于 seriesData 中的项目的 name 属性）。
+                // {c} 代表具体的数据值（通常对应于 seriesData 中的项目的 value 属性）。
+                // {d} 代表百分比，是根据具体数据值计算的。
+                formatter: '{a} <br/>{b} : {c} ({d}%)'
+            },
+            legend: {
+                type: 'scroll',
+                orient: 'vertical',
+                right: 10,
+                top: 20,
+                bottom: 20,
+                data: data.legendData,
+                selected: data.selected,
+                selectedMode: 'none'
+            },
+            series: [
+                {
+                    name: '姓名',
+                    type: 'pie',
+                    radius: '60%',
+                    center: ['40%', '60%'],
+                    data: data.seriesData,
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+        myChart.setOption(option);
+    }
+
+
+    function genData(scores) {
+        let nameList = [
+            '很差', '较差', '一般', '推荐', '力荐'
+        ];
+        let legendData = [];
+        let seriesData = [];
+        let selected = {};
+        for (let i = 0; i < 5; i++) {
+            let v = 0;
+            if (i === 0) {
+                v = scores[0];
+            } else if (i === 1) {
+                v = scores[1];
+            } else if (i === 2) {
+                v = scores[2];
+            } else if (i === 3) {
+                v = scores[3];
+            } else if (i === 4) {
+                v = scores[4];
+            }
+            let name = nameList[parseInt(i)];
+            legendData.push(name);
+            seriesData.push({
+                name: name,
+                value: v
+            });
+            selected[name] = true;
+        }
+        return {
+            legendData: legendData,
+            seriesData: seriesData,
+            selected: selected
+        };
+    }
+
+    $(function () {
+        $.getJSON(`/bookDetail?bookId=${bookId}`,
+            function (result) {
+                if (result.code === 0) {
+                    let similarBooks = result.data.similarBooks;
+                    let userMaybeLikeBooks = result.data.userMaybeLikeBooks;
+                    let book = result.data.book;
+                    let comments = result.data.comments;
+                    let scores = result.data.scores;
+                    showBookDetail(book);
+                    showScoresDetail(scores);
+                    showCommentsDetail(comments);
+                    showSimilarBooksDetail(similarBooks);
+                    showUserMaybeLikeDetail(userMaybeLikeBooks);
+                    // 价格单价赋值后, 计算总价
+                    setTotal();
+                } else {
+                    alert(result.message);
+                }
+            }
+        )
+    })
+
+    function showBookDetail(book) {
+        // 书籍信息
+        $('.bookDetail').after(`
+            <img src="${book.image}" class="cn " style="width: 130px; margin: 5px" referrerpolicy="no-referrer">
+            <div class="cn book_image" style="width: 250px;margin-left: 10px">
+                <p>书名：${book.bookName}</p>
+                <p>ISBN：${book.isbn}</p>
+                <p>作者：${book.author}</p>
+                <p>类别：${book.label}</p>
+                <p>出版社：${book.publicSource}</p>
+                <p>出版日期：${book.date}</p>
+            </div>
+        `);
+        $('.price').text(book.price);
+        $('.bookStock').text(book.storeNumber);
+        // 作品简介
+        $('.authorInfo').append(book.authorIntroduction)
+        let bookInfo = book.bookInfo;
+        if (bookInfo.length > 800) {
+            bookInfo = bookInfo.substring(0, 800);
+        }
+        $('#bookInfo').append(bookInfo + "...");
+    }
+
+    function showScoresDetail(scores) {
+        $('bookScore').append(scores);
+        makeRadarChart(scores);
+        makePieChart(scores);
+    }
+
+    function showCommentsDetail(comments) {
+        let commentContainer = $('.comments');
+        $.each(comments, function (index, comment) {
+            // 制作星星
+            let starCount = comment.commentScore;
+            let starHtml = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= starCount) {
+                    starHtml += "<li>★</li>\n";
+                } else {
+                    starHtml += "<li>☆</li>\n";
+                }
+            }
+            commentContainer.append(`
+                 <div class="per clearfix">
+                        <img class="fl" src="${comment.user.image}" style="width: 30px; height: 30px; border-radius: 18px">
+                        <div class="perR fl">
+                            <p style="font-size: 16px;font-weight: bold; color: black"> ${comment.user.name}</p>
+                            <p style="font-size: 15px; color: grey">${comment.content}</p>
+                            <div>
+                                <ul class="star">
+                                    <li style="color: black "><b>评分：</b></li>
+                                    ${starHtml}
+                                </ul>
+                                <p style="margin-left: 100px"><span>${comment.publicDate}</span><span>数量：1</span></p>
+                            </div>
+                        </div>
+                 </div>
+            `);
+        });
+    }
+
+    function showSimilarBooksDetail(similarBooks) {
+        if (similarBooks.length !== 0) {
+            $('.similarBooksSize').append('(' + similarBooks.length + ')');
+            let allSimilarBooksDiv = $('#allSimilarBooksDiv');
+            let similarBooksContainer = $('<div></div>').addClass('seeList').css('width', '170px');
+            allSimilarBooksDiv.append(similarBooksContainer);
+            $.each(similarBooks, function (index, book) {
+                similarBooksContainer.append(`
+                    <dl>
+                        <dt>
+                            <a href="./bookDetail.html?bookId=${book.id}" style="margin-bottom: 0px">
+                                <img src="${book.image}" referrerpolicy="no-referrer"
+                                     style="width: 170px">
+                            </a>
+                        </dt>
+                        <dd>
+                            <a href="./bookDetail.html?bookId=${book.id}"
+                               class="bookName">${book.bookName} (￥${book.price})
+                            </a>
+                        </dd>
+                    </dl>
+                `);
+            })
+        }
+    }
+
+    function showUserMaybeLikeDetail(userMaybeLikeBooks) {
+        if (userMaybeLikeBooks !== null && userMaybeLikeBooks.length !== 0) {
+            let userMaybeLikeContainer = $('.userMaybeLike');
+            userMaybeLikeContainer.html(`
+                <div style="width: 100%; height: 50px; line-height: 50px; font-size: 18px; font-weight: bold; text-align: center">
+                    买过该书的人还喜欢
+                </div>
+                <div class="like" style="width: 80%; margin: 0 auto">
+                    <div class="bottom">
+                        <div class="hd">
+                            <span class="prev"><img src="../img/temp/prev.png"></span>
+                            <span class="next"><img src="../img/temp/next.png"></span>
+                        </div>
+                        <div class="imgCon bd">
+                            <div class="likeList clearfix">
+                                ${userMaybeLikeBooks.map(function (book) {
+                return `
+                                    <div>
+                                        <a href="./bookDetail.html?bookId=${book.id}">
+                                            <dl>
+                                                <dt><img src="${book.image}" referrerpolicy="no-referrer" style="width: 216px; height: 306px"></dt>
+                                                <dd class="bookNameDd">${book.bookName}</dd>
+                                                <dd style="font-size: 16px;">￥${book.price}</dd>
+                                            </dl>
+                                        </a>
+                                    </div>
+                                    `;
+            }).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `);
+            // 数据赋值后, 开启轮播
+            openSlide();
+        }
+    }
+
+    // 底部买过该书的人还喜欢的轮播
+   function openSlide() {
+       $(".bottom").slide({
+           titCell: "",
+           // titCell: ".hd ul", // 轮播标题
+           mainCell: ".bd .likeList",  // 录播的内容
+           autoPage: true,  // 是否分页
+           effect: "leftLoop",  // 轮播效果
+           autoPlay: true,  // 自动轮播
+           vis: 5, // 轮播数量
+           autoplaySpeed: 1000 // 轮播时间
+       });
+   }
+
+</script>
+
+</html>

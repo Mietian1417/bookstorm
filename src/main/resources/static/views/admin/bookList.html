@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html class="x-admin-sm" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="stylesheet" href="../../css/font.css">
+    <link rel="stylesheet" href="../../css/xadmin.css">
+    <script src="../../lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../js/xadmin.js"></script>
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="../../js/jquery/2.0.0/jquery.min.js"></script>
+    <script src="../../js/bootstrap/3.3.6/bootstrap.min.js"></script>
+</head>
+<style>
+    .layui-table th, .layui-table td {
+        text-align: center;
+    }
+</style>
+<body>
+<div class="x-nav">
+            <span class="layui-breadcrumb">
+                <a href="#">首页</a>
+                <a href="#">图书管理</a>
+                <a href="#">所有图书管理</a>
+                <a href="#" class="categoryClassName"></a>
+            </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+       onclick="location.reload()" title="刷新">
+        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
+    </a>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body ">
+                    <div class="layui-form layui-col-space5">
+                        <div class="layui-inline layui-show-xs-block">
+                            <input type="text" name="keyword" placeholder="请输入查询词! (书名、Isbn、作者...)"
+                                   autocomplete="off" class="layui-input" style="width: 210px">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <button class="layui-btn" type="submit" onclick="searchBooks()">
+                                <i class="layui-icon">&#xe615;</i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-card-header">
+                    <button class="layui-btn">
+                        <i class="layui-icon"></i>
+                        <a class="addBook">添加</a>
+                    </button>
+                </div>
+
+                <div class="layui-card-body ">
+                    <table class="layui-table layui-form"
+                           lay-data="{page:true,toolbar: '#toolbarDemo',id:'test'}"
+                           lay-filter="test">
+                        <thead>
+                        <tr>
+                            <th lay-data="{type:'checkbox'}">ID</th>
+                            <th lay-data="{field:'id', width:80, sort: true}">ID</th>
+                            <th lay-data="{field:'bookName', width:150, sort: true}">书名</th>
+                            <th lay-data="{field:'author',width: 170}">作者</th>
+                            <th lay-data="{field:'price', width:80, sort: true}">价格</th>
+                            <th lay-data="{field:'isbn',width: 130}">ISBN</th>
+                            <th lay-data="{field:'publicSource',width:150 }">出版社</th>
+                            <th lay-data="{field:'date',width:100}">出版日期</th>
+                            <th lay-data="{field:'score',width:80, sort: true}">评分</th>
+                            <th lay-data="{field:'tool', width:200, templet: '#toolTpl'}">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody class="bookData">
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/html" id="toolTpl">
+    <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="look">查看</a>
+    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete">删除</a>
+</script>
+<script>
+    let categoryClassId = new URLSearchParams(window.location.search).get('categoryClassId');
+    if (categoryClassId === undefined || categoryClassId === null) {
+        categoryClassId = 0;
+    }
+
+    function searchBooks() {
+        let keyword = $('input[name="keyword"]').val();
+        if(keyword.length === 0){
+            alert("请输入查询词! ");
+        }else{
+            $.getJSON(`/admin/searchBooks?categoryClassId=${categoryClassId}&keyword=${keyword}`,
+                function (result) {
+                    if (result.code === 0) {
+                        let bookList = result.data;
+                        // 重新渲染数据
+                        layui.table.reload('test', {
+                            data: bookList,
+                        });
+                    } else {
+                        alert(result.message);
+                    }
+                }
+            )
+        }
+    }
+
+    let categoryClass = null;
+    $(function () {
+        $.getJSON(`/admin/bookList?categoryClassId=${categoryClassId}`,
+            function (result) {
+                if (result.code === 0) {
+                    let bookList = result.data.bookList;
+                    categoryClass = result.data.categoryClass;
+                    showBookList(bookList, categoryClass);
+                    // 导航栏展示当前分类状态
+                    if (categoryClass === null || categoryClass.length === 0) {
+                        $('.categoryClassName').text('当前类别：所有图书');
+                    } else {
+                        $('.categoryClassName').text('当前类别：' + categoryClass.categoryClassname);
+                    }
+                    // 渲染数据
+                    userLayUi(categoryClass);
+                } else {
+                    alert(result.message);
+                }
+            }
+        )
+    })
+
+    function showBookList(bookList) {
+        let bookListContainer = $('.bookData');
+        // 清空容器
+        bookListContainer.empty();
+        let html = '';
+        // 遍历bookList并生成HTML字符串
+        $.each(bookList, function (index, book) {
+            bookListContainer.append(`
+                <tr>
+                    <td lay-data="{type:'checkbox'}" value="${book.id}">ID</td>
+                    <td>${book.id}</td>
+                    <td>${book.bookName}</td>
+                    <td>${book.author}</td>
+                    <td>${book.price}</td>
+                    <td>${book.isbn}</td>
+                    <td>${book.publicSource}</td>
+                    <td>${book.date}</td>
+                    <td>${book.score}</td>
+                </tr>
+            `);
+        });
+        $('.addBook').attr('href', `./addBook.html?categoryClassId=${categoryClassId}`);
+    }
+
+    function deleteBook(bookId) {
+        $.getJSON(`/admin/deleteBook?bookId=${bookId}`,
+            function (result) {
+                if (result.code === 0) {
+                    location.assign(`./bookList.html?categoryClassId=${categoryClassId}`);
+                } else {
+                    alert(result.message);
+                }
+            }
+        )
+    }
+</script>
+<script>
+    function userLayUi() {
+        layui.use('table',
+            function () {
+                let table = layui.table;
+                // 监听表格中的工具条按钮点击事件
+                table.on('tool(test)', function (obj) {
+                    let data = obj.data; // 获取当前行数据
+                    let event = obj.event; // 获取事件名
+
+                    if (event === 'edit') {
+                        // 编辑按钮点击事件
+                        let bookId = data.id;
+                        let categoryClassId = categoryClass ? categoryClass.id : 0;
+                        location.href = `./editBook.html?bookId=${bookId}&categoryClassId=${categoryClassId}`;
+                    } else if (event === 'look') {
+                        // 查看按钮点击事件
+                        let bookId = data.id;
+                        location.href = `./bookInfo.html?bookId=${bookId}`;
+                    } else if (event === 'delete') {
+                        // 删除按钮点击事件
+                        let bookId = data.id;
+                        deleteBook(bookId);
+                    }
+                });
+            }
+        );
+    }
+</script>
+
+</html>
